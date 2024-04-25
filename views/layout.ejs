@@ -1,0 +1,17 @@
+<%- include('./partials/layout/header') %>
+<div class="container">
+    <div class="row">
+        <div class="col-3 d-flex flex-column h-100">
+            <% if (isLoggedIn) { %>
+                <%- include('./partials/module/sidebar') %>
+            <% } else { %>
+                
+            <% } %>
+        </div>
+        <div class="col-9">
+            <%- include(`./screens/${page}`) %>
+        </div>
+        
+    </div>
+</div>
+<%- include('./partials/layout/footer') %>
