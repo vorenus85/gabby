@@ -2,10 +2,11 @@
   "name": "gabby",
   "version": "1.0.0",
   "description": "Twitter clone app for learn node.js backend development",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js --open"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vorenus85/gabby.git"
@@ -23,5 +24,16 @@
   "bugs": {
     "url": "https://github.com/vorenus85/gabby/issues"
   },
-  "homepage": "https://github.com/vorenus85/gabby#readme"
+  "homepage": "https://github.com/vorenus85/gabby#readme",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5"
+  }
 }
