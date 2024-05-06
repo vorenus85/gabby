@@ -1,0 +1,58 @@
+<div class="card post">
+    <div class="card-header post-header">
+        <img class="img-fluid card-img post-creator-img" src="/public/avatar/avatar_1.png" alt="John Doe" />
+        <a class="mx-3" href="/user/johndoe">@<%- post.creatorUsername%></a>
+        <span class="post-created-date ms-auto"><%- post.createdAt %></span>
+        <!-- follow feature v2. feature -->
+    </div>
+    <div class="card-body">
+        <p class="card-text"><%=post.content%></p>
+    </div>
+    <% if (isLoggedIn){ %>
+    <div class="card-footer post-footer">
+        <div class="btn btn-outline-danger mx-2 delete-post" onclick="deletePost(<%=post.id%>)" title="Delete post"><i
+                class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <a class="btn btn-outline-info mx-2" title="Edit post" href="/post/<%=post.id%>"><i
+                class="fa fa-pencil-square-o" aria-hidden="true"></i>
+
+        </a>
+    </div>
+    <% } %>
+</div>
+<% if (isLoggedIn){ %>
+<script type="text/javascript">
+    function deletePost(id) {
+        var confirmModal = new bootstrap.Modal(document.getElementById("deleteConfirmModal"), {});
+        var deletePostIdInput = document.getElementById("postIdToDelete");
+        deletePostIdInput.value = id;
+        confirmModal.show();
+    }
+
+</script>
+<% } %>
+<style>
+    .post-creator-img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .post-footer .btn {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .post-footer .fa {
+        font-size: 1.25rem;
+    }
+
+    .post-footer,
+    .post-header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+</style>
