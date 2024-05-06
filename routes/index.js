@@ -75,7 +75,7 @@ export function addRoutes(app) {
 
   // GRPR screen
   app.get('/gdpr', (req, res, next) => {
-    res.render('layout', { page: 'gdpr' });
+    res.render('layout', { page: 'gdpr', isLoggedIn: true });
   });
 
   // Új jelszó létrehozása form
@@ -253,7 +253,7 @@ export function addRoutes(app) {
     (req, res, next) => {
       res.render('layout', {
         page: 'home',
-        isLoggedIn: true,
+        isLoggedIn: false,
         posts: objectRepository.db.posts,
       });
     }
