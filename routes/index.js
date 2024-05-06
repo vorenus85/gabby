@@ -18,8 +18,50 @@ import { getPwdToken } from '../middlewares/getPwdToken.js';
 import { loginUser } from '../middlewares/loginUser.js';
 import { createUser } from '../middlewares/createUser.js';
 
+import moment from 'moment';
+
 export function addRoutes(app) {
-  const objectRepository = {};
+  const objectRepository = {
+    db: {
+      posts: [
+        {
+          id: '1',
+          createdBy: '1',
+          creatorUsername: 'johndoe',
+          creatorImage: '3',
+          content: 'Lorem ispum dolor sit amet',
+          createdAt: moment(new Date('2024-05-02 10:10:20')).fromNow(true),
+        },
+        {
+          id: '2',
+          createdBy: '3',
+          creatorImage: '2',
+          creatorUsername: 'barbara85',
+          content:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus eveniet ratione.',
+          createdAt: moment(new Date('2024-05-03 06:15:20')).fromNow(true),
+        },
+        {
+          id: '3',
+          createdBy: '1',
+          creatorImage: '3',
+          creatorUsername: 'johndoe',
+          content:
+            'Qui dicta minus molestiae vel beatae natus eveniet ratione.',
+          createdAt: moment(new Date('2024-05-02 12:20:20')).fromNow(true),
+        },
+        {
+          id: '4',
+          createdBy: '3',
+          creatorImage: '2',
+          creatorUsername: 'barbara85',
+          content:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus eveniet ratione.',
+          createdAt: moment(new Date('2024-05-03 06:15:20')).fromNow(true),
+        },
+      ],
+    },
+  };
 
   // Regisztrációs adatok form
   app.post('/register', createUser(objectRepository), (req, res, next) => {
@@ -108,7 +150,7 @@ export function addRoutes(app) {
     authUser(objectRepository),
     createPost(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'home', isLoggedIn: true });
+      res.redirect('/');
     }
   );
 
@@ -209,7 +251,11 @@ export function addRoutes(app) {
     authUser(objectRepository),
     getPosts(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'home', isLoggedIn: true });
+      res.render('layout', {
+        page: 'home',
+        isLoggedIn: true,
+        posts: objectRepository.db.posts,
+      });
     }
   );
 }

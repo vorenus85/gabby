@@ -1,0 +1,25 @@
+.post-creator-img {
+  width: 45px;
+  height: 45px;
+  outline: 3px solid var(--bs-info);
+  border-radius: 100%;
+}
+
+.post-footer .btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-footer .fa {
+  font-size: 1.25rem;
+}
+
+.post-footer,
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}

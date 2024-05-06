@@ -33,5 +33,13 @@
   </li>
 </ul>
 <div class="d-grid">
-  <button class="btn btn-primary btn-lg" type="button">Post</button>
+  <button class="btn btn-primary btn-lg" type="button" onclick="createPost()">Post</button>
 </div>
+<script type="text/javascript">
+  function createPost() {
+    console.log('createPost')
+    var createPostModal = new bootstrap.Modal(document.getElementById("createPostModal"), {});
+    createPostModal.show();
+  }
+
+</script>
