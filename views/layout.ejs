@@ -3,15 +3,19 @@
     <div class="row h-100">
         <div class="col-3 d-flex flex-column p-3">
             <% if (isLoggedIn) { %>
-                <%- include('./partials/module/sidebar') %>
+            <%- include('./partials/module/logo') %>
+            <%- include('./partials/module/sidebar') %>
             <% } else { %>
-                
+            <%- include('./partials/module/logo') %>
+            <%- include('./partials/module/login') %>
+            <small class="my-4 text-center">If you have not account</small>
+            <%- include('./partials/module/register') %>
             <% } %>
         </div>
         <div class="col-9 p-3">
             <%- include(`./screens/${page}`) %>
         </div>
-        
+
     </div>
 </div>
 <%- include('./partials/layout/footer') %>

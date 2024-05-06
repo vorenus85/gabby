@@ -209,7 +209,7 @@ export function addRoutes(app) {
     authUser(objectRepository),
     getPosts(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'home', isLoggedIn: true });
+      res.render('layout', { page: 'home', isLoggedIn: false });
     }
   );
 }
