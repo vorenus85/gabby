@@ -87,7 +87,7 @@ export function addRoutes(app) {
   );
 
   // Felhasználó beállításai oldal.
-  app.get('/editUser', authUser(objectRepository), (req, res, next) => {
+  app.get('/profile', authUser(objectRepository), (req, res, next) => {
     res.render('layout', { page: 'profile', isLoggedIn: true });
   });
 
@@ -199,7 +199,7 @@ export function addRoutes(app) {
     getPostsById(objectRepository),
     getUsersById(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'search' });
+      res.render('layout', { page: 'search', isLoggedIn: true });
     }
   );
 

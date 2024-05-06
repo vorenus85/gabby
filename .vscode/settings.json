@@ -9,5 +9,11 @@
   "emmet.includeLanguages": {
     "ejs": "html"
   },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "html.format.templating": true
 }
