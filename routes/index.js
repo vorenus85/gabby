@@ -104,7 +104,7 @@ export function addRoutes(app) {
 
   // Post létrehozása modal
   app.post(
-    '/posts/create',
+    '/post/create',
     authUser(objectRepository),
     createPost(objectRepository),
     (req, res, next) => {
@@ -114,7 +114,7 @@ export function addRoutes(app) {
 
   // Posthoz tartozó kép törlése
   app.post(
-    '/posts/deleteImage/:id',
+    '/post/deleteImage/:id',
     authUser(objectRepository),
     getPostsById(objectRepository),
     deletePostImage(objectRepository),
@@ -126,7 +126,7 @@ export function addRoutes(app) {
 
   // post szerkesztése űrlap
   app.post(
-    '/posts/update/:id',
+    '/post/update/:id',
     authUser(objectRepository),
     getPostsById(objectRepository),
     updatePost(objectRepository),
@@ -137,7 +137,7 @@ export function addRoutes(app) {
 
   // post szerkesztése oldal
   app.get(
-    '/posts/get/:id',
+    '/post/:id',
     authUser(objectRepository),
     getPostsById(objectRepository),
     (req, res, next) => {
@@ -147,7 +147,7 @@ export function addRoutes(app) {
 
   // post törlése
   app.post(
-    '/posts/delete/:id',
+    '/post/delete/:id',
     authUser(objectRepository),
     getPostsById(objectRepository),
     deletePost(objectRepository),
@@ -209,7 +209,7 @@ export function addRoutes(app) {
     authUser(objectRepository),
     getPosts(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'home', isLoggedIn: false });
+      res.render('layout', { page: 'home', isLoggedIn: true });
     }
   );
 }
