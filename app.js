@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import { addRoutes } from './routes/index.js';
+
 const app = express();
 const port = 3000;
 
@@ -14,6 +15,7 @@ app.use(
 );
 
 app.use('/uploads', express.static('uploads'));
+app.use('/public', express.static('public'));
 
 // create application/x-www-form-urlencoded parser
 app.use(bodyParser.urlencoded({ extended: false }));
