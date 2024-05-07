@@ -17,6 +17,7 @@ import { updatePwd } from '../middlewares/updatePwd.js';
 import { setNewPwdToken } from '../middlewares/setNewPwdToken.js';
 import { getPwdToken } from '../middlewares/getPwdToken.js';
 import { loginUser } from '../middlewares/loginUser.js';
+import { logoutUser } from '../middlewares/logoutUser.js';
 import { createUser } from '../middlewares/createUser.js';
 
 import moment from 'moment';
@@ -108,21 +109,19 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     });
   });
 
+  // Kijelentkezés
+  app.post('/logout', logoutUser(objectRepository));
+
   // Bejelentkezési adatok form
   app.post('/login', loginUser(objectRepository), (req, res, next) => {
-    res.render('layout', {
-      page: 'home',
-      isLoggedIn: res.locals?.loggedIn,
-      posts: objectRepository.db.posts,
-      errors: res.locals.errors,
-    });
+    res.redirect('/');
   });
 
   // GRPR screen
   app.get('/gdpr', (req, res, next) => {
     res.render('layout', {
       page: 'gdpr',
-      isLoggedIn: res.locals?.loggedIn,
+      isLoggedIn: res.locals?.isLoggedIn,
       error: res.locals.error,
     });
   });
@@ -179,7 +178,10 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // Felhasználó beállításai oldal.
   app.get('/profile', authUser(objectRepository), (req, res, next) => {
-    res.render('layout', { page: 'profile', isLoggedIn: true });
+    res.render('layout', {
+      page: 'profile',
+      isLoggedIn: res.locals?.isLoggedIn,
+    });
   });
 
   // Felhasználó profil oldala
@@ -191,7 +193,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     (req, res, next) => {
       res.render('layout', {
         page: 'user',
-        isLoggedIn: res.locals?.loggedIn,
+        isLoggedIn: res.locals?.isLoggedIn,
         userData: objectRepository.userData,
         userPosts: objectRepository.userPosts,
       });
@@ -300,17 +302,12 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   );
 
   // homepage
-  app.get(
-    '/',
-    authUser(objectRepository),
-    getPosts(objectRepository),
-    (req, res, next) => {
-      res.render('layout', {
-        page: 'home',
-        isLoggedIn: res.locals?.loggedIn,
-        posts: objectRepository.db.posts,
-        errors: res.locals.errors,
-      });
-    }
-  );
+  app.get('/', authUser(), getPosts(objectRepository), (req, res, next) => {
+    res.render('layout', {
+      page: 'home',
+      isLoggedIn: res.locals?.isLoggedIn,
+      posts: objectRepository.db.posts,
+      errors: res.locals.errors,
+    });
+  });
 }

@@ -30,7 +30,7 @@ export const loginUser = (objectRepository) => {
       return next();
     }
 
-    req.session.userid = user.id;
+    req.session.userId = user.id;
     return req.session.save((err) => {
       if (err) {
         return next(err);
