@@ -1,1 +1,17 @@
-Edit post
+<%- include('../partials/module/pageHead', {title: 'Edit post'}) %>
+<form method="post" action="/post/update">
+    <div class="d-flex gap-3">
+        <img class="img-fluid card-img post-creator-img" src="/public/avatar/avatar_2.png" alt="John Doe" />
+        <textarea class="form-control" maxlength="160" placeholder="This a tweet..." id="newPost"
+            onkeyup="countPostLength(this,'currentEdit')"></textarea>
+    </div>
+    <div class="d-flex align-items-center justify-content-end mb-3">
+        <div id="post-count" class="mt-2">
+            <span id="currentEdit">0</span>
+            <span id="maximum">/ 160</span>
+        </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-end">
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </div>
+</form>

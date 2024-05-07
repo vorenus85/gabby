@@ -23,3 +23,11 @@
   align-items: center;
   justify-content: flex-end;
 }
+
+.page-head {
+  background: var(--bs-gray-200);
+}
+
+.page-head-title {
+  font-size: 2rem;
+}
