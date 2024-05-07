@@ -75,7 +75,7 @@ export function addRoutes(app) {
 
   // GRPR screen
   app.get('/gdpr', (req, res, next) => {
-    res.render('layout', { page: 'gdpr', isLoggedIn: true });
+    res.render('layout', { page: 'gdpr', isLoggedIn: false });
   });
 
   // Új jelszó létrehozása form
@@ -93,7 +93,7 @@ export function addRoutes(app) {
     '/new-password/:uniqueHash',
     getPwdToken(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'createNewPassword' });
+      res.render('layout', { page: 'createNewPassword', isLoggedIn: false });
     }
   );
 
@@ -104,7 +104,7 @@ export function addRoutes(app) {
 
   // lost password screen
   app.get('/lost-password', (req, res, next) => {
-    res.render('layout', { page: 'lostPassword', isLoggedIn: true });
+    res.render('layout', { page: 'lostPassword', isLoggedIn: false });
   });
 
   // Felhasználó jelszavának módosítása űrlap
