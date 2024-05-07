@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { authUser } from '../middlewares/authUser.js';
 import { getPosts } from '../middlewares/getPosts.js';
 import { search } from '../middlewares/search.js';
@@ -20,8 +21,12 @@ import { createUser } from '../middlewares/createUser.js';
 
 import moment from 'moment';
 
-export function addRoutes(app) {
+export function addRoutes(app, { postModel, userModel, saveDB }) {
   const objectRepository = {
+    postModel,
+    userModel,
+    uuidv4,
+    saveDB,
     db: {
       posts: [
         {

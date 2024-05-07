@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
+import { initDatabase } from './services/db.js';
 import { addRoutes } from './routes/index.js';
 
 const app = express();
@@ -21,9 +22,12 @@ app.use('/public', express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.set('view engine', 'ejs');
-
-addRoutes(app);
-
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`);
+initDatabase((err, { postModel, userModel, saveDB }) => {
+  if (err) {
+    return console.log('App cannot start', err);
+  }
+  addRoutes(app, { postModel, userModel, saveDB });
+  app.listen(3000, () => {
+    console.log(`App listening on port ${port}`);
+  });
 });
