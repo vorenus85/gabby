@@ -101,7 +101,8 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // Regisztrációs adatok form
   app.post('/register', createUser(objectRepository), (req, res, next) => {
-    res.render('layout', { page: 'home' });
+    // res.redirect('/');
+    res.render('layout', { page: 'home', isLoggedIn: false, posts: [] });
   });
 
   // Bejelentkezési adatok form

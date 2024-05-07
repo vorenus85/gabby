@@ -7,6 +7,9 @@ import { addRoutes } from './routes/index.js';
 const app = express();
 const port = 3000;
 
+app.use('/uploads', express.static('uploads'));
+app.use('/public', express.static('public'));
+
 app.use(
   session({
     secret: 'it61s3t78n9srq37t7t8',
@@ -14,9 +17,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-
-app.use('/uploads', express.static('uploads'));
-app.use('/public', express.static('public'));
 
 // create application/x-www-form-urlencoded parser
 app.use(bodyParser.urlencoded({ extended: false }));

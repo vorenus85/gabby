@@ -60,6 +60,12 @@ export function initDatabase(callback) {
       }
       console.log('DB saved after init.');
 
+      // dump all rows for development
+      console.log('Users');
+      console.table(userModel.find());
+      console.log('Posts');
+      console.table(postModel.find());
+
       return callback(undefined, {
         postModel,
         userModel,
