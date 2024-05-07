@@ -1,6 +1,9 @@
 <div class="card  register-module">
     <div class="card-body">
         <h4 class="mb-3">Register</h4>
+        <% if(errors?.registerError){ %>
+        <%- include('error', {errorMessage: errors.registerError}) %>
+        <% } %>
         <form method="post" action="/register" id="registerForm">
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>

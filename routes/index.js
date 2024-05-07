@@ -101,18 +101,30 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // Regisztrációs adatok form
   app.post('/register', createUser(objectRepository), (req, res, next) => {
-    // res.redirect('/');
-    res.render('layout', { page: 'home', isLoggedIn: false, posts: [] });
+    res.render('layout', {
+      page: 'home',
+      isLoggedIn: false,
+      posts: objectRepository.db.posts,
+    });
   });
 
   // Bejelentkezési adatok form
   app.post('/login', loginUser(objectRepository), (req, res, next) => {
-    res.render('layout', { page: 'home' });
+    res.render('layout', {
+      page: 'home',
+      isLoggedIn: res.locals?.loggedIn,
+      posts: objectRepository.db.posts,
+      errors: res.locals.errors,
+    });
   });
 
   // GRPR screen
   app.get('/gdpr', (req, res, next) => {
-    res.render('layout', { page: 'gdpr', isLoggedIn: false });
+    res.render('layout', {
+      page: 'gdpr',
+      isLoggedIn: res.locals?.loggedIn,
+      error: res.locals.error,
+    });
   });
 
   // Új jelszó létrehozása form
@@ -179,7 +191,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     (req, res, next) => {
       res.render('layout', {
         page: 'user',
-        isLoggedIn: true,
+        isLoggedIn: res.locals?.loggedIn,
         userData: objectRepository.userData,
         userPosts: objectRepository.userPosts,
       });
@@ -295,8 +307,9 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     (req, res, next) => {
       res.render('layout', {
         page: 'home',
-        isLoggedIn: false,
+        isLoggedIn: res.locals?.loggedIn,
         posts: objectRepository.db.posts,
+        errors: res.locals.errors,
       });
     }
   );
