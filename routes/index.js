@@ -61,6 +61,37 @@ export function addRoutes(app) {
         },
       ],
     },
+    userData: {
+      id: 'asdasd-asdasdasd-asdasd',
+      profileImage: '2',
+      email: 'john@doe.com',
+      username: '@johndoe',
+      fullname: 'John Doe',
+      location: 'Budapest',
+      bio: 'This is my one line bio',
+      newPwdSecret: 'asdas-das-da-sd-as-d-asd-asd',
+      createdAt: moment(new Date('2024-05-1 01:00:00')).format('YYYY MMM Do'),
+      updatedAt: new Date('2024-05-1 01:00:00'),
+      followedUsers: [],
+    },
+    userPosts: [
+      {
+        id: '1',
+        createdBy: '1',
+        creatorUsername: 'johndoe',
+        creatorImage: '3',
+        content: 'Lorem ispum dolor sit amet',
+        createdAt: moment(new Date('2024-05-02 10:10:20')).fromNow(true),
+      },
+      {
+        id: '3',
+        createdBy: '1',
+        creatorImage: '3',
+        creatorUsername: 'johndoe',
+        content: 'Qui dicta minus molestiae vel beatae natus eveniet ratione.',
+        createdAt: moment(new Date('2024-05-02 12:20:20')).fromNow(true),
+      },
+    ],
   };
 
   // Regisztrációs adatok form
@@ -80,7 +111,7 @@ export function addRoutes(app) {
 
   // Új jelszó létrehozása form
   app.post(
-    '/newPassword/:uniqueHash',
+    '/new-password/:uniqueHash',
     updatePwd(objectRepository),
     setNewPwdToken(objectRepository),
     (req, res, next) => {
@@ -140,7 +171,12 @@ export function addRoutes(app) {
     getPostByUserId(objectRepository),
     getUsersById(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'user', isLoggedIn: true });
+      res.render('layout', {
+        page: 'user',
+        isLoggedIn: true,
+        userData: objectRepository.userData,
+        userPosts: objectRepository.userPosts,
+      });
     }
   );
 

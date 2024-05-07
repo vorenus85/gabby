@@ -1,1 +1,32 @@
-A user
+<div class="user-top-module">
+    <div class="user-page-top">
+        <div class="user-page-top-inner h-100">
+
+        </div>
+    </div>
+    <img class="img-fluid user-image" src="/public/avatar/avatar_<%=userData.profileImage%>.png" alt="John Doe" />
+</div>
+
+<div class="user-middle-module mb-4">
+    <div class="user-full-name py-1 mb-2">
+        <%=userData.fullname%>
+    </div>
+    <div class="user-username py-1 mb-2">
+        <%=userData.username%>
+    </div>
+    <div class="user-joined-date py-1 mb-2">
+        Joined at <%=userData.createdAt%>
+    </div>
+    <div class="user-location py-1 mb-2">
+        <%=userData.location%>
+    </div>
+    <div class="user-bio py-1 mb-2">
+        <%=userData.bio%>
+    </div>
+</div>
+
+<div class="user-posts">
+    <% for(var i=0; i < userPosts.length; i++) { %>
+    <%- include('../partials/module/postCard', {post: userPosts[i]}) %>
+    <% } %>
+</div>

@@ -1,3 +1,4 @@
+.user-image,
 .post-creator-img {
   width: 45px;
   height: 45px;
@@ -30,4 +31,69 @@
 
 .page-head-title {
   font-size: 2rem;
+}
+
+/* user page */
+.user-image {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  z-index: 1;
+  margin-top: -50px;
+  margin-left: 50px;
+}
+
+.user-page-top {
+  --bs-green-rgb: 25, 135, 84;
+  --bs-teal-rgb: 32, 201, 151;
+  --bs-cyan-rgb: 13, 202, 240;
+  width: 100%;
+  height: 200px;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: rgba(var(--bs-green-rgb), 0.2);
+  padding: 2rem;
+  position: relative;
+}
+
+.user-page-top-inner:before,
+.user-page-top-inner:after,
+.user-page-top:before,
+.user-page-top:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  border-radius: 100%;
+}
+
+.user-page-top:before {
+  top: -20%;
+  right: -20%;
+  background-color: rgba(var(--bs-green-rgb), 0.2);
+}
+
+.user-page-top:after {
+  top: -60%;
+  right: -10%;
+  background-color: rgba(var(--bs-teal-rgb), 0.2);
+}
+
+.user-page-top-inner:before {
+  top: -50%;
+  left: -20%;
+  background-color: rgba(var(--bs-cyan-rgb), 0.2);
+}
+
+.user-page-top-inner:after {
+  top: -70%;
+  left: -10%;
+  background-color: rgba(var(--bs-cyan-rgb), 0.2);
+}
+
+.user-page-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
 }
