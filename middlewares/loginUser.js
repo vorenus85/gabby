@@ -6,7 +6,7 @@
  */
 
 export const loginUser = (objectRepository) => {
-  const { userModel, SaveDB } = objectRepository;
+  const { userModel } = objectRepository;
 
   return (req, res, next) => {
     res.locals.errors = {};
@@ -30,7 +30,10 @@ export const loginUser = (objectRepository) => {
       return next();
     }
 
+    user.createdAtText = moment(user.createdAt).fromNow();
+
     req.session.userId = user.id;
+    req.session.loggedInUser = user;
     return req.session.save((err) => {
       if (err) {
         return next(err);

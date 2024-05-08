@@ -10,10 +10,11 @@
     <% } %>
 </div>
 
+<% if(isLoggedIn && sameUser){%>
 <div class="d-flex align-items-center justify-content-end">
     <a href="/profile" class="btn btn-primary">Edit profile</a>
 </div>
-
+<% }%>
 <div class="user-middle-module mb-4">
     <% if( user?.fullname){ %>
     <div class="user-full-name py-1 mb-2">

@@ -5,7 +5,37 @@
  */
 
 export const createPost = (objectRepository) => {
+  const { postModel, saveDB, uuidv4 } = objectRepository;
   return (req, res, next) => {
-    return next();
+    const user = res.locals?.user;
+
+    if (typeof req.body.postContent === 'undefined') {
+      res.locals.errors.postError = 'Missing post content';
+      return next();
+      // return res.status(400).json({ error: 'Missing post content' });
+    }
+
+    try {
+      postModel.insert({
+        id: uuidv4(),
+        createdBy: user.id,
+        creatorUsername: user.username,
+        creatorImage: user.profileImage,
+        content: req.body.postContent,
+        image: '',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
+    return saveDB((error) => {
+      if (error) {
+        return next(error);
+      }
+
+      next();
+    });
   };
 };

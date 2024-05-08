@@ -20,6 +20,8 @@
 </div>
 <% if(isLoggedIn){ %>
 <%- include('./partials/modal/confirm') %>
+<% if(loggedInUser){ %>
 <%- include('./partials/modal/createPost') %>
+<% } %>
 <% } %>
 <%- include('./partials/layout/footer') %>

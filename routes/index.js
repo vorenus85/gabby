@@ -6,7 +6,7 @@ import { search } from '../middlewares/search.js';
 import { getPostsById } from '../middlewares/getPostsById.js';
 import { getPostByUserId } from '../middlewares/getPostByUserId.js';
 import { getUsersById } from '../middlewares/getUsersById.js';
-import { getLoggedInUser } from '../middlewares/getLoggedInUser.js';
+import { getUserByUsername } from '../middlewares/getUserByUsername.js';
 import { doFollow } from '../middlewares/doFollow.js';
 import { doNotFollow } from '../middlewares/doNotFollow.js';
 import { getFollowingPosts } from '../middlewares/getFollowingPosts.js';
@@ -23,83 +23,13 @@ import { logoutUser } from '../middlewares/logoutUser.js';
 import { createUser } from '../middlewares/createUser.js';
 
 import moment from 'moment';
-
 export function addRoutes(app, { postModel, userModel, saveDB }) {
   const objectRepository = {
     postModel,
     userModel,
     uuidv4,
     saveDB,
-    db: {
-      posts: [
-        {
-          id: '1',
-          createdBy: '1',
-          creatorUsername: 'johndoe',
-          creatorImage: '3',
-          content: 'Lorem ispum dolor sit amet',
-          createdAt: moment(new Date('2024-05-02 10:10:20')).fromNow(true),
-        },
-        {
-          id: '2',
-          createdBy: '3',
-          creatorImage: '2',
-          creatorUsername: 'barbara85',
-          content:
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus eveniet ratione.',
-          createdAt: moment(new Date('2024-05-03 06:15:20')).fromNow(true),
-        },
-        {
-          id: '3',
-          createdBy: '1',
-          creatorImage: '3',
-          creatorUsername: 'johndoe',
-          content:
-            'Qui dicta minus molestiae vel beatae natus eveniet ratione.',
-          createdAt: moment(new Date('2024-05-02 12:20:20')).fromNow(true),
-        },
-        {
-          id: '4',
-          createdBy: '3',
-          creatorImage: '2',
-          creatorUsername: 'barbara85',
-          content:
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus eveniet ratione.',
-          createdAt: moment(new Date('2024-05-03 06:15:20')).fromNow(true),
-        },
-      ],
-    },
-    userData: {
-      id: 'asdasd-asdasdasd-asdasd',
-      profileImage: '2',
-      email: 'john@doe.com',
-      username: '@johndoe',
-      fullname: 'John Doe',
-      location: 'Budapest',
-      bio: 'This is my one line bio',
-      newPwdSecret: 'asdas-das-da-sd-as-d-asd-asd',
-      createdAt: moment(new Date('2024-05-1 01:00:00')).format('YYYY MMM Do'),
-      updatedAt: new Date('2024-05-1 01:00:00'),
-      followedUsers: [],
-    },
-    userPosts: [
-      {
-        id: '1',
-        createdBy: '1',
-        creatorUsername: 'johndoe',
-        creatorImage: '3',
-        content: 'Lorem ispum dolor sit amet',
-        createdAt: moment(new Date('2024-05-02 10:10:20')).fromNow(true),
-      },
-      {
-        id: '3',
-        createdBy: '1',
-        creatorImage: '3',
-        creatorUsername: 'johndoe',
-        content: 'Qui dicta minus molestiae vel beatae natus eveniet ratione.',
-        createdAt: moment(new Date('2024-05-02 12:20:20')).fromNow(true),
-      },
-    ],
+    moment,
   };
 
   app.all('*', isLoggedIn());
@@ -126,7 +56,8 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     res.render('layout', {
       page: 'gdpr',
       isLoggedIn: res.locals?.isLoggedIn,
-      error: res.locals.error,
+      loggedInUser: req.session?.loggedInUser,
+      errors: '',
     });
   });
 
@@ -195,15 +126,17 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   // Felhasználó oldala
   app.get(
     '/user/:userName',
-    authUser(objectRepository),
+    getUserByUsername(objectRepository),
     getPostByUserId(objectRepository),
     getUsersById(objectRepository),
     (req, res, next) => {
       res.render('layout', {
         page: 'user',
         isLoggedIn: res.locals?.isLoggedIn,
-        userData: objectRepository.userData,
-        userPosts: objectRepository.userPosts,
+        sameUser: res.locals?.user?.id === req.session?.loggedInUser?.id,
+        user: res.locals?.user,
+        userPosts: [],
+        errors: '',
       });
     }
   );
@@ -212,17 +145,15 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   app.get(
     '/me',
     authUser(objectRepository),
-    getLoggedInUser(objectRepository),
     getPostByUserId(objectRepository),
     getUsersById(objectRepository),
     (req, res, next) => {
-      console.log(res.locals);
-
       res.render('layout', {
         page: 'user',
         isLoggedIn: res.locals?.isLoggedIn,
-        user: res.locals?.user,
-        userPosts: objectRepository.userPosts,
+        user: req.session.loggedInUser,
+        loggedInUser: req.session.loggedInUser,
+        userPosts: [],
         errors: res.locals?.errors,
       });
     }
@@ -334,7 +265,8 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     res.render('layout', {
       page: 'home',
       isLoggedIn: res.locals?.isLoggedIn,
-      posts: objectRepository.db.posts,
+      loggedInUser: req.session.loggedInUser,
+      posts: res.locals.posts,
       errors: res.locals.errors,
     });
   });

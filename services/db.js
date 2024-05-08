@@ -6,6 +6,7 @@ const db = new loki('database.db');
  *
  * ID: UUID
  * profileImage: string - random avatar képek, legenerálunk vagy 20db-ot egy statikus könyvtárba és random módon kap egyet a felhasználó, regisztrációkor: https://nice-avatar.dapi.to/
+ * password: string
  * email: string
  * username: string
  * fullname: string
@@ -61,11 +62,12 @@ export function initDatabase(callback) {
       console.log('DB saved after init.');
 
       // dump all rows for development
+      /*
       console.log('Users');
       console.table(userModel.find());
       console.log('Posts');
       console.table(postModel.find());
-
+      */
       return callback(undefined, {
         postModel,
         userModel,

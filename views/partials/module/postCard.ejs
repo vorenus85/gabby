@@ -2,8 +2,8 @@
     <div class="card-header post-header">
         <img class="img-fluid card-img post-creator-img" src="/public/avatar/avatar_<%=post.creatorImage%>.png"
             alt="John Doe" />
-        <a class="mx-3" href="/user/johndoe">@<%- post.creatorUsername%></a>
-        <span class="post-created-date ms-auto"><%- post.createdAt %></span>
+        <a class="mx-3" href="/user/<%- post.creatorUsername%>">@<%- post.creatorUsername%></a>
+        <span class="post-created-date ms-auto"><%- post.createdAtText %></span>
         <!-- follow feature v2. feature -->
     </div>
     <div class="card-body">

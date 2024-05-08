@@ -7,6 +7,11 @@
 export const authUser = (objectRepository) => {
   return (req, res, next) => {
     if (typeof req.session.userId === 'undefined') {
+      /*
+      return res.status(401).json({
+        error: 'Authentication required',
+      });
+      */
       return res.redirect('/');
     }
     return next();
