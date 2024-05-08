@@ -8,6 +8,7 @@ export const getPostById = (objectRepository) => {
   const { postModel } = objectRepository;
   return (req, res, next) => {
     if (req.body.id === 'undefined') {
+      console.error('Missing post id during getPostById');
       return res.redirect('/');
     }
 
@@ -15,6 +16,7 @@ export const getPostById = (objectRepository) => {
     const post = postModel.findOne({ id: postId });
 
     if (post.createdBy !== req.session.loggedInUser.id) {
+      console.error('Not creator want to delete post');
       return res.redirect('/');
     }
 

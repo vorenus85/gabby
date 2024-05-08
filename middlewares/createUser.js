@@ -19,24 +19,28 @@ export const createUser = (objectRepository) => {
     res.locals.errors = {};
     if (typeof req.body.email === 'undefined') {
       res.locals.errors.registerError = 'Missing email';
+      console.error('Missing email');
       return next();
       // return res.status(400).json({ error: 'Missing email' });
     }
 
     if (typeof req.body.username === 'undefined') {
       res.locals.errors.registerError = 'Missing username';
+      console.error('Missing username');
       return next();
       // return res.status(400).json({ error: 'Missing username' });
     }
 
     if (typeof req.body.password === 'undefined') {
       res.locals.errors.registerError = 'Missing password';
+      console.error('Missing password');
       return next();
       // return res.status(400).json({ error: 'Missing password' });
     }
 
     if (typeof req.body.passwordAgain === 'undefined') {
       res.locals.errors.registerError = 'Missing passwordAgain';
+      console.error('Missing passwordAgain');
       return next();
       // return res.status(400).json({ error: 'Missing passwordAgain' });
     }
@@ -44,6 +48,9 @@ export const createUser = (objectRepository) => {
     if (!passwordRegex.test(req.body.password)) {
       res.locals.errors.registerError =
         'Password is at least 6 characters long, contain at least one number, and contain at least one letter';
+      console.error(
+        'Password is at least 6 characters long, contain at least one number, and contain at least one letter'
+      );
       return next();
       /*return res.status(400).json({
         error:
@@ -53,6 +60,7 @@ export const createUser = (objectRepository) => {
 
     if (!emailRegex.test(req.body.email)) {
       res.locals.errors.registerError = 'Email is invalid';
+      console.error('Email is invalid');
       return next();
       /*
       return res.status(400).json({
@@ -62,6 +70,7 @@ export const createUser = (objectRepository) => {
 
     if (req.body.password !== req.body.passwordAgain) {
       res.locals.errors.registerError = 'Passwords must be equal';
+      console.error('Passwords must be equal');
       return next();
       /*
       return res.status(400).json({

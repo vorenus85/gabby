@@ -3,6 +3,7 @@ export const getUserByUsername = (objectRepository) => {
   return (req, res, next) => {
     const user = userModel.findOne({ username: req.params.userName });
     if (!user) {
+      console.error('User missing during getUserByUsername');
       return res.redirect('/');
     }
 

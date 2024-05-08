@@ -9,6 +9,7 @@ export const getPostsByUserId = (objectRepository) => {
   return (req, res, next) => {
     const user = res.locals?.user;
     if (!user) {
+      console.error('User missing during getPostsByUserId');
       return res.redirect('/');
     }
     const posts = postModel.find({ createdBy: user.id }).reverse();

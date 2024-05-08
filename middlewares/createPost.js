@@ -10,9 +10,8 @@ export const createPost = (objectRepository) => {
     const user = req.session.loggedInUser;
 
     if (typeof req.body.postContent === 'undefined') {
-      res.locals.errors.postError = 'Missing post content';
+      console.error('Missing post content');
       return next();
-      // return res.status(400).json({ error: 'Missing post content' });
     }
 
     try {
