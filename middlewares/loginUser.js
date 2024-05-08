@@ -6,7 +6,7 @@
  */
 
 export const loginUser = (objectRepository) => {
-  const { userModel } = objectRepository;
+  const { userModel, moment } = objectRepository;
 
   return (req, res, next) => {
     res.locals.errors = {};

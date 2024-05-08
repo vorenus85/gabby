@@ -4,7 +4,7 @@ import { isLoggedIn } from '../middlewares/isLoggedIn.js';
 import { getPosts } from '../middlewares/getPosts.js';
 import { search } from '../middlewares/search.js';
 import { getPostsById } from '../middlewares/getPostsById.js';
-import { getPostByUserId } from '../middlewares/getPostByUserId.js';
+import { getPostsByUserId } from '../middlewares/getPostsByUserId.js';
 import { getUsersById } from '../middlewares/getUsersById.js';
 import { getUserByUsername } from '../middlewares/getUserByUsername.js';
 import { doFollow } from '../middlewares/doFollow.js';
@@ -127,15 +127,16 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   app.get(
     '/user/:userName',
     getUserByUsername(objectRepository),
-    getPostByUserId(objectRepository),
+    getPostsByUserId(objectRepository),
     getUsersById(objectRepository),
     (req, res, next) => {
       res.render('layout', {
         page: 'user',
         isLoggedIn: res.locals?.isLoggedIn,
         sameUser: res.locals?.user?.id === req.session?.loggedInUser?.id,
+        loggedInUser: req.session.loggedInUser,
         user: res.locals?.user,
-        userPosts: [],
+        posts: res.locals?.posts,
         errors: '',
       });
     }
@@ -145,15 +146,20 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   app.get(
     '/me',
     authUser(objectRepository),
-    getPostByUserId(objectRepository),
+    (req, res, next) => {
+      res.locals.user = req.session.loggedInUser;
+      next();
+    },
+    getPostsByUserId(objectRepository),
     getUsersById(objectRepository),
     (req, res, next) => {
       res.render('layout', {
         page: 'user',
         isLoggedIn: res.locals?.isLoggedIn,
-        user: req.session.loggedInUser,
-        loggedInUser: req.session.loggedInUser,
-        userPosts: [],
+        user: res.locals?.user,
+        loggedInUser: res.locals?.user,
+        sameUser: res.locals?.user?.id === req.session?.loggedInUser?.id,
+        userPosts: res.locals?.posts,
         errors: res.locals?.errors,
       });
     }

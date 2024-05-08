@@ -9,7 +9,7 @@
     <div class="card-body">
         <p class="card-text"><%=post.content%></p>
     </div>
-    <% if (isLoggedIn){ %>
+    <% if(isLoggedIn && (loggedInUser.id === post.createdBy)){%>
     <div class="card-footer post-footer">
         <div class="btn btn-outline-danger mx-2 delete-post" onclick="deletePost(<%=post.id%>)" title="Delete post"><i
                 class="fa fa-trash" aria-hidden="true"></i>
@@ -21,7 +21,7 @@
     </div>
     <% } %>
 </div>
-<% if (isLoggedIn){ %>
+<% if(isLoggedIn && (loggedInUser.id === post.createdBy)){%>
 <script type="text/javascript">
     function deletePost(id) {
         var confirmModal = new bootstrap.Modal(document.getElementById("deleteConfirmModal"), {});
