@@ -1,10 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import { authUser } from '../middlewares/authUser.js';
+import { isLoggedIn } from '../middlewares/isLoggedIn.js';
 import { getPosts } from '../middlewares/getPosts.js';
 import { search } from '../middlewares/search.js';
 import { getPostsById } from '../middlewares/getPostsById.js';
 import { getPostByUserId } from '../middlewares/getPostByUserId.js';
 import { getUsersById } from '../middlewares/getUsersById.js';
+import { getLoggedInUser } from '../middlewares/getLoggedInUser.js';
 import { doFollow } from '../middlewares/doFollow.js';
 import { doNotFollow } from '../middlewares/doNotFollow.js';
 import { getFollowingPosts } from '../middlewares/getFollowingPosts.js';
@@ -100,6 +102,8 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     ],
   };
 
+  app.all('*', isLoggedIn());
+
   // Regisztrációs adatok form
   app.post('/register', createUser(objectRepository), (req, res, next) => {
     res.render('layout', {
@@ -152,7 +156,11 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // lost password screen
   app.get('/lost-password', (req, res, next) => {
-    res.render('layout', { page: 'lostPassword', isLoggedIn: false });
+    res.render('layout', {
+      page: 'lostPassword',
+      isLoggedIn: res.locals?.isLoggedIn,
+      errors: res.locals?.errors,
+    });
   });
 
   // Felhasználó jelszavának módosítása űrlap
@@ -184,7 +192,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     });
   });
 
-  // Felhasználó profil oldala
+  // Felhasználó oldala
   app.get(
     '/user/:userName',
     authUser(objectRepository),
@@ -196,6 +204,26 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
         isLoggedIn: res.locals?.isLoggedIn,
         userData: objectRepository.userData,
         userPosts: objectRepository.userPosts,
+      });
+    }
+  );
+
+  // Bejelentkezett felhasználó oldala
+  app.get(
+    '/me',
+    authUser(objectRepository),
+    getLoggedInUser(objectRepository),
+    getPostByUserId(objectRepository),
+    getUsersById(objectRepository),
+    (req, res, next) => {
+      console.log(res.locals);
+
+      res.render('layout', {
+        page: 'user',
+        isLoggedIn: res.locals?.isLoggedIn,
+        user: res.locals?.user,
+        userPosts: objectRepository.userPosts,
+        errors: res.locals?.errors,
       });
     }
   );
@@ -302,7 +330,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   );
 
   // homepage
-  app.get('/', authUser(), getPosts(objectRepository), (req, res, next) => {
+  app.get('/', getPosts(objectRepository), (req, res, next) => {
     res.render('layout', {
       page: 'home',
       isLoggedIn: res.locals?.isLoggedIn,

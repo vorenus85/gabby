@@ -1,32 +1,50 @@
-<div class="user-top-module">
+<div class="user-top-module mb-5">
     <div class="user-page-top">
         <div class="user-page-top-inner h-100">
 
         </div>
     </div>
-    <img class="img-fluid user-image" src="/public/avatar/avatar_<%=userData.profileImage%>.png" alt="John Doe" />
+    <% if( user?.profileImage){ %>
+    <img class="img-fluid user-image" src="/public/avatar/avatar_<%=user?.profileImage%>.png"
+        alt="<%=user?.fullname%>" />
+    <% } %>
+</div>
+
+<div class="d-flex align-items-center justify-content-end">
+    <a href="/profile" class="btn btn-primary">Edit profile</a>
 </div>
 
 <div class="user-middle-module mb-4">
+    <% if( user?.fullname){ %>
     <div class="user-full-name py-1 mb-2">
-        <%=userData.fullname%>
+        <%=user?.fullname%>
     </div>
+    <% } %>
+    <% if( user?.username){ %>
     <div class="user-username py-1 mb-2">
-        <%=userData.username%>
+        <%=user?.username%>
     </div>
+    <% } %>
+    <% if( user?.createdAtText){ %>
     <div class="user-joined-date py-1 mb-2">
-        Joined at <%=userData.createdAt%>
+        Joined at <%=user?.createdAtText%>
     </div>
+    <% } %>
+    <% if( user?.location){ %>
     <div class="user-location py-1 mb-2">
-        <%=userData.location%>
+        <%=user?.location%>
     </div>
+    <% } %>
+    <% if( user?.bio){ %>
     <div class="user-bio py-1 mb-2">
-        <%=userData.bio%>
+        <%=user?.bio%>
     </div>
+    <% } %>
 </div>
-
+<% if( userPosts.length){ %>
 <div class="user-posts">
     <% for(var i=0; i < userPosts.length; i++) { %>
     <%- include('../partials/module/postCard', {post: userPosts[i]}) %>
     <% } %>
 </div>
+<% } %>

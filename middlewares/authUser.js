@@ -7,9 +7,7 @@
 export const authUser = (objectRepository) => {
   return (req, res, next) => {
     if (typeof req.session.userId === 'undefined') {
-      res.locals.isLoggedIn = false;
-    } else {
-      res.locals.isLoggedIn = true;
+      return res.redirect('/');
     }
     return next();
   };
