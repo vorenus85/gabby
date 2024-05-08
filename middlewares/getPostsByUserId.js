@@ -11,7 +11,7 @@ export const getPostsByUserId = (objectRepository) => {
     if (!user) {
       return res.redirect('/');
     }
-    const posts = postModel.find({ createdBy: user.id });
+    const posts = postModel.find({ createdBy: user.id }).reverse();
 
     posts.forEach((post) => {
       post.createdAtText = moment(post.createdAt).fromNow();

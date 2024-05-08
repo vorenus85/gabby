@@ -7,7 +7,7 @@
 export const createPost = (objectRepository) => {
   const { postModel, saveDB, uuidv4 } = objectRepository;
   return (req, res, next) => {
-    const user = res.locals?.user;
+    const user = req.session.loggedInUser;
 
     if (typeof req.body.postContent === 'undefined') {
       res.locals.errors.postError = 'Missing post content';

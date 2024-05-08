@@ -4,6 +4,7 @@ import { isLoggedIn } from '../middlewares/isLoggedIn.js';
 import { getPosts } from '../middlewares/getPosts.js';
 import { search } from '../middlewares/search.js';
 import { getPostsById } from '../middlewares/getPostsById.js';
+import { getPostById } from '../middlewares/getPostById.js';
 import { getPostsByUserId } from '../middlewares/getPostsByUserId.js';
 import { getUsersById } from '../middlewares/getUsersById.js';
 import { getUserByUsername } from '../middlewares/getUserByUsername.js';
@@ -171,7 +172,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     authUser(objectRepository),
     createPost(objectRepository),
     (req, res, next) => {
-      res.redirect('/');
+      res.redirect(req.get('referer'));
     }
   );
 
@@ -179,7 +180,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   app.post(
     '/post/deleteImage/:id',
     authUser(objectRepository),
-    getPostsById(objectRepository),
+    getPostById(objectRepository),
     deletePostImage(objectRepository),
     (req, res, next) => {
       // hova redirekteljen??
@@ -210,12 +211,12 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // post törlése
   app.post(
-    '/post/delete/:id',
+    '/post/delete',
     authUser(objectRepository),
-    getPostsById(objectRepository),
+    getPostById(objectRepository),
     deletePost(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'home', isLoggedIn: true });
+      res.redirect(req.get('referer'));
     }
   );
 

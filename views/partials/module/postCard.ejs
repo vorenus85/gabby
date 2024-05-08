@@ -11,7 +11,7 @@
     </div>
     <% if(isLoggedIn && (loggedInUser.id === post.createdBy)){%>
     <div class="card-footer post-footer">
-        <div class="btn btn-outline-danger mx-2 delete-post" onclick="deletePost(<%=post.id%>)" title="Delete post"><i
+        <div class="btn btn-outline-danger mx-2 delete-post" onclick="deletePost('<%=post.id%>')" title="Delete post"><i
                 class="fa fa-trash" aria-hidden="true"></i>
         </div>
         <a class="btn btn-outline-info mx-2" title="Edit post" href="/post/<%=post.id%>"><i
