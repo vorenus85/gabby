@@ -203,9 +203,15 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   app.get(
     '/post/:id',
     authUser(objectRepository),
-    getPostsById(objectRepository),
+    getPostById(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'editPost', isLoggedIn: true });
+      res.render('layout', {
+        page: 'editPost',
+        isLoggedIn: res.locals?.isLoggedIn,
+        loggedInUser: req.session?.loggedInUser,
+        errors: res.locals?.errors,
+        post: res.locals?.post,
+      });
     }
   );
 
