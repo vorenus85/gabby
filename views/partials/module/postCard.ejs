@@ -3,8 +3,10 @@
         <img class="img-fluid card-img post-creator-img" src="/public/avatar/avatar_<%=post.creatorImage%>.png"
             alt="John Doe" />
         <a class="mx-3" href="/user/<%- post.creatorUsername%>">@<%- post.creatorUsername%></a>
-        <span class="post-created-date ms-auto"><%- post.createdAtText %></span>
-        <!-- follow feature v2. feature -->
+        <small class="post-created-date ms-auto"><%- post.createdAtText %></small>
+        <% if(isLoggedIn && (loggedInUser.id !== post.createdBy)){%>
+        <%- include('followBtn', {followId: post.createdBy}) %>
+        <% } %>
     </div>
     <div class="card-body">
         <p class="card-text"><%=post.content%></p>
@@ -29,6 +31,5 @@
         deletePostIdInput.value = id;
         confirmModal.show();
     }
-
 </script>
 <% } %>
