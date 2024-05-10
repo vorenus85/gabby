@@ -6,6 +6,7 @@
         <small class="post-created-date ms-auto"><%- post.createdAtText %></small>
         <% if(isLoggedIn && (loggedInUser.id !== post.createdBy)){%>
         <%- include('followBtn', {followId: post.createdBy}) %>
+        <%- include('unFollowBtn', {followId: post.createdBy}) %>
         <% } %>
     </div>
     <div class="card-body">
