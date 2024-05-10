@@ -1,7 +1,7 @@
 <div class="card post mb-3">
     <div class="card-header post-header">
         <img class="img-fluid card-img post-creator-img" src="/public/avatar/avatar_<%=post.creatorImage%>.png"
-            alt="John Doe" />
+            alt="<%- post.creatorUsername%>" />
         <a class="mx-3" href="/user/<%- post.creatorUsername%>">@<%- post.creatorUsername%></a>
         <small class="post-created-date ms-auto"><%- post.createdAtText %></small>
         <% if(isLoggedIn && (loggedInUser.id !== post.createdBy)){%>

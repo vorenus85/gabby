@@ -16,10 +16,7 @@ export const getFollowingPosts = (objectRepository) => {
 
     const followings = user.followedUsers;
 
-    console.log(followings);
-
-    res.locals.posts = postModel.find({ createdBy: { $in: followings } });
-    console.log(res.locals.posts);
+    res.locals.followings = postModel.find({ createdBy: { $in: followings } });
 
     return next();
   };

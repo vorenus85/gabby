@@ -38,6 +38,8 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     res.locals.errors = {};
     res.locals.post = {};
     res.locals.posts = [];
+    res.locals.followings = [];
+    res.locals.users = [];
     res.locals.messages = {};
     next();
   });
