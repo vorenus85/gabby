@@ -10,11 +10,11 @@ export const getPostById = (objectRepository) => {
     let postId;
 
     if (req.method === 'POST') {
-      postId = req.body.id;
+      postId = req.body.postId;
     }
 
     if (req.method === 'GET') {
-      postId = req.params.id;
+      postId = req.params.postId;
     }
 
     if (postId === 'undefined') {

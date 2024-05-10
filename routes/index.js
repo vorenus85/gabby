@@ -190,18 +190,18 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // post szerkesztése űrlap
   app.post(
-    '/post/update/:id',
+    '/post/update/:postId',
     authUser(objectRepository),
-    getPostsById(objectRepository),
+    getPostById(objectRepository),
     updatePost(objectRepository),
     (req, res, next) => {
-      res.redirect('/posts/get/:id'); // + param sikeres szerkesztés
+      res.redirect(req.get('referer'));
     }
   );
 
   // post szerkesztése oldal
   app.get(
-    '/post/:id',
+    '/post/:postId',
     authUser(objectRepository),
     getPostById(objectRepository),
     (req, res, next) => {
