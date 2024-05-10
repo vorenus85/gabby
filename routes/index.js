@@ -190,12 +190,18 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // post szerkesztése űrlap
   app.post(
-    '/post/update/:postId',
+    '/post/update',
     authUser(objectRepository),
-    getPostById(objectRepository),
     updatePost(objectRepository),
     (req, res, next) => {
-      res.redirect(req.get('referer'));
+      res.render('layout', {
+        page: 'editPost',
+        isLoggedIn: res.locals?.isLoggedIn,
+        loggedInUser: req.session?.loggedInUser,
+        errors: res.locals?.errors,
+        post: res.locals?.post,
+        messages: res.locals?.messages,
+      });
     }
   );
 
@@ -211,6 +217,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
         loggedInUser: req.session?.loggedInUser,
         errors: res.locals?.errors,
         post: res.locals?.post,
+        messages: res.locals?.messages,
       });
     }
   );

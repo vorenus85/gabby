@@ -24,6 +24,11 @@ export const getPostById = (objectRepository) => {
 
     const post = postModel.findOne({ id: postId });
 
+    if (!post) {
+      console.error('Post not find by postId during getPostById');
+      return res.redirect('/');
+    }
+
     if (post.createdBy !== req.session.loggedInUser.id) {
       console.error('Authentication failed during getPostById');
       return res.redirect('/');
