@@ -5,8 +5,11 @@
         <a class="mx-3" href="/user/<%- post.creatorUsername%>">@<%- post.creatorUsername%></a>
         <small class="post-created-date ms-auto"><%- post.createdAtText %></small>
         <% if(isLoggedIn && (loggedInUser.id !== post.createdBy)){%>
-        <%- include('followBtn', {followId: post.createdBy}) %>
+        <% if(loggedInUser.followedUsers.includes(post.createdBy)){ %>
         <%- include('unFollowBtn', {followId: post.createdBy}) %>
+        <%} else {%>
+        <%- include('followBtn', {followId: post.createdBy}) %>
+        <% } %>
         <% } %>
     </div>
     <div class="card-body">

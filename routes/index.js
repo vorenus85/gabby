@@ -37,11 +37,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // Regisztrációs adatok form
   app.post('/register', createUser(objectRepository), (req, res, next) => {
-    res.render('layout', {
-      page: 'home',
-      isLoggedIn: false,
-      posts: objectRepository.db.posts,
-    });
+    res.redirect('/');
   });
 
   // Kijelentkezés
@@ -245,21 +241,21 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // felhasználó kikövetése
   app.post(
-    '/unfollow/:followId',
+    '/unfollow/',
     authUser(objectRepository),
     doNotFollow(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'home', isLoggedIn: true });
+      res.redirect(req.get('referer'));
     }
   );
 
   // felhasználó követése
   app.post(
-    '/follow/:followId',
+    '/follow',
     authUser(objectRepository),
     doFollow(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'home', isLoggedIn: true });
+      res.redirect(req.get('referer'));
     }
   );
 
