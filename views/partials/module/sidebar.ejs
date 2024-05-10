@@ -1,6 +1,7 @@
 <ul class="nav nav-pills flex-column mb-auto py-2">
   <li class="nav-item my-1">
-    <a class="nav-link active" aria-current="page" href="/">
+    <a
+      class="nav-link <% if (activePage === "home"){%>active<%}%>" aria-current="page" href="/">
       <i class="fa fa-home" aria-hidden="true"></i>
       Home
     </a>
@@ -12,20 +13,19 @@
       Search
     </a>
   </li>
+  -->
   <li class="nav-item my-1">
-    <a class="nav-link" aria-current="page" href="/following">
+    <a class="nav-link <% if (activePage === "following"){%>active<%}%>" aria-current="page" href="/following/<%=loggedInUser.username%>">
       <i class="fa fa-user-plus" aria-hidden="true"></i>
       Following
     </a>
   </li>
-  -->
   <li class="nav-item my-1">
-    <a class="nav-link" aria-current="page" href="/me">
+    <a class="nav-link <% if (activePage === "user"){%>active<%}%>" aria-current="page" href="/me">
       <i class="fa fa-user" aria-hidden="true"></i>
       Profile
     </a>
   </li>
-
   <li class="nav-item">
     <form method="post" action="/logout">
       <button class="nav-link w-100 text-start" type="submit"><i class="fa fa-sign-out" aria-hidden="true"></i>

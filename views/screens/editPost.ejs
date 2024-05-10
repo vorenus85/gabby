@@ -1,5 +1,5 @@
 <%- include('../partials/module/pageHead', {title: 'Edit post'}) %>
-<% if(messages) {%>
+<% if(messages.length) {%>
 <%- include('../partials/module/success', {message: messages.successUpdatePost}) %>
 <%}%>
 <form method="post" action="/post/update">

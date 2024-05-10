@@ -22,6 +22,7 @@ import { getPwdToken } from '../middlewares/getPwdToken.js';
 import { loginUser } from '../middlewares/loginUser.js';
 import { logoutUser } from '../middlewares/logoutUser.js';
 import { createUser } from '../middlewares/createUser.js';
+import { renderPage } from '../middlewares/renderPage.js';
 
 import moment from 'moment';
 export function addRoutes(app, { postModel, userModel, saveDB }) {
@@ -33,7 +34,13 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     moment,
   };
 
-  app.all('*', isLoggedIn());
+  app.all('*', isLoggedIn(), (req, res, next) => {
+    res.locals.errors = {};
+    res.locals.post = {};
+    res.locals.posts = [];
+    res.locals.messages = {};
+    next();
+  });
 
   // Regisztrációs adatok form
   app.post('/register', createUser(objectRepository), (req, res, next) => {
@@ -44,19 +51,17 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   app.post('/logout', logoutUser(objectRepository));
 
   // Bejelentkezési adatok form
-  app.post('/login', loginUser(objectRepository), (req, res, next) => {
-    res.redirect('/');
-  });
+  app.post(
+    '/login',
+    loginUser(objectRepository),
+    getPosts(objectRepository),
+    (req, res, next) => {
+      res.redirect('/');
+    }
+  );
 
   // GRPR screen
-  app.get('/gdpr', (req, res, next) => {
-    res.render('layout', {
-      page: 'gdpr',
-      isLoggedIn: res.locals?.isLoggedIn,
-      loggedInUser: req.session?.loggedInUser,
-      errors: '',
-    });
-  });
+  app.get('/gdpr', renderPage('gdpr'));
 
   // Új jelszó létrehozása form
   app.post(
@@ -126,17 +131,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     getUserByUsername(objectRepository),
     getPostsByUserId(objectRepository),
     getUsersById(objectRepository),
-    (req, res, next) => {
-      res.render('layout', {
-        page: 'user',
-        isLoggedIn: res.locals?.isLoggedIn,
-        sameUser: res.locals?.user?.id === req.session?.loggedInUser?.id,
-        loggedInUser: req.session.loggedInUser,
-        user: res.locals?.user,
-        posts: res.locals?.posts,
-        errors: '',
-      });
-    }
+    renderPage('user')
   );
 
   // Bejelentkezett felhasználó oldala
@@ -149,17 +144,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     },
     getPostsByUserId(objectRepository),
     getUsersById(objectRepository),
-    (req, res, next) => {
-      res.render('layout', {
-        page: 'user',
-        isLoggedIn: res.locals?.isLoggedIn,
-        user: res.locals?.user,
-        loggedInUser: res.locals?.user,
-        sameUser: res.locals?.user?.id === req.session?.loggedInUser?.id,
-        userPosts: res.locals?.posts,
-        errors: res.locals?.errors,
-      });
-    }
+    renderPage('user')
   );
 
   // Post létrehozása modal
@@ -190,14 +175,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     authUser(objectRepository),
     updatePost(objectRepository),
     (req, res, next) => {
-      res.render('layout', {
-        page: 'editPost',
-        isLoggedIn: res.locals?.isLoggedIn,
-        loggedInUser: req.session?.loggedInUser,
-        errors: res.locals?.errors,
-        post: res.locals?.post,
-        messages: res.locals?.messages,
-      });
+      res.redirect(req.get('referer'));
     }
   );
 
@@ -206,16 +184,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     '/post/:postId',
     authUser(objectRepository),
     getPostById(objectRepository),
-    (req, res, next) => {
-      res.render('layout', {
-        page: 'editPost',
-        isLoggedIn: res.locals?.isLoggedIn,
-        loggedInUser: req.session?.loggedInUser,
-        errors: res.locals?.errors,
-        post: res.locals?.post,
-        messages: res.locals?.messages,
-      });
-    }
+    renderPage('editPost')
   );
 
   // post törlése
@@ -231,12 +200,11 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // Bekövetett felhasználók listája
   app.get(
-    '/following/:username',
+    '/following/:userName',
     authUser(objectRepository),
+    getUserByUsername(objectRepository),
     getFollowingPosts(objectRepository),
-    (req, res, next) => {
-      res.render('layout', { page: 'following', isLoggedIn: true });
-    }
+    renderPage('following')
   );
 
   // felhasználó kikövetése
@@ -271,19 +239,9 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     search(objectRepository),
     getPostsById(objectRepository),
     getUsersById(objectRepository),
-    (req, res, next) => {
-      res.render('layout', { page: 'search', isLoggedIn: true });
-    }
+    renderPage('search')
   );
 
   // homepage
-  app.get('/', getPosts(objectRepository), (req, res, next) => {
-    res.render('layout', {
-      page: 'home',
-      isLoggedIn: res.locals?.isLoggedIn,
-      loggedInUser: req.session.loggedInUser,
-      posts: res.locals.posts,
-      errors: res.locals.errors,
-    });
-  });
+  app.get('/', getPosts(objectRepository), renderPage('home'));
 }

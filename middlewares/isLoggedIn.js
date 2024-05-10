@@ -10,6 +10,7 @@ export const isLoggedIn = (objectRepository) => {
       res.locals.isLoggedIn = false;
     } else {
       res.locals.isLoggedIn = true;
+      res.locals.loggedInUser = req.session.loggedInUser;
     }
     return next();
   };

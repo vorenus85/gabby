@@ -10,7 +10,7 @@
     <% } %>
 </div>
 
-<% if(isLoggedIn && sameUser){%>
+<% if(isLoggedIn && (loggedInUser.id === user.id)){%>
 <div class="d-flex align-items-center justify-content-end">
     <a href="/profile" class="btn btn-primary">Edit profile</a>
 </div>
