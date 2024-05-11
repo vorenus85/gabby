@@ -5,9 +5,8 @@
         <div class="d-flex flex-column mx-3">
             <a class="" href="/user/<%- user.username%>">@<%- user.username%></a>
             <% if(user.bio){%>
-            <small class="user-bio ms-auto" style="max-width: 150px;"><%- user.bio %></small>
+            <small class="user-bio text-truncate" style="max-width: 150px;"><%- user.bio %></small>
             <%}%>
-            <small class="user-bio text-truncate" style="max-width: 150px;">One line asdasd asd asd asd asd asd asd as das da s as</small>
         </div>
         
         <a href="/user/<%- user.username%>" class="btn btn-secondary btn-sm ms-auto">View</a>
