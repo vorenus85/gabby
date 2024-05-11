@@ -80,21 +80,23 @@ export const createUser = (objectRepository) => {
       return next();
     }
 
+    const newUser = {
+      id: uuidv4(),
+      profileImage: Math.floor(Math.random() * 10) + 1, // in public/avatar folder have 10 random avatar image from avatar_1.png to avatar_10.png assign one randomly
+      email: req.body.email,
+      username: req.body.username,
+      password: req.body.password,
+      fullname: '',
+      location: '',
+      bio: '',
+      newPwdSecret: uuidv4(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      followedUsers: [],
+    };
+
     try {
-      userModel.insert({
-        id: uuidv4(),
-        profileImage: Math.floor(Math.random() * 10) + 1, // in public/avatar folder have 10 random avatar image from avatar_1.png to avatar_10.png assign one randomly
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password,
-        fullname: '',
-        location: '',
-        bio: '',
-        newPwdSecret: uuidv4(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        followedUsers: [],
-      });
+      userModel.insert(newUser);
     } catch (error) {
       console.error(error);
     }
@@ -105,6 +107,8 @@ export const createUser = (objectRepository) => {
         return next(error);
       }
 
+      req.session.userId = newUser.id;
+      req.session.loggedInUser = newUser;
       next();
     });
   };

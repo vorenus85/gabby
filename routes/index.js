@@ -46,24 +46,17 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   });
 
   // Regisztrációs adatok form
-  app.post(
-    '/register',
-    createUser(objectRepository),
-    isLoggedIn(objectRepository),
-    renderPage('home')
-  );
+  app.post('/register', createUser(objectRepository), (req, res, next) => {
+    res.redirect('/');
+  });
 
   // Kijelentkezés
   app.post('/logout', logoutUser(objectRepository));
 
   // Bejelentkezési adatok form
-  app.post(
-    '/login',
-    loginUser(objectRepository),
-    getPosts(objectRepository),
-    isLoggedIn(objectRepository),
-    renderPage('home')
-  );
+  app.post('/login', loginUser(objectRepository), (req, res, next) => {
+    res.redirect('/');
+  });
 
   // GRPR screen
   app.get('/gdpr', renderPage('gdpr'));
