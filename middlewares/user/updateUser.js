@@ -20,15 +20,19 @@ export const updateUser = (objectRepository) => {
     objectRepository.username = username;
 
     // check username collision
-    if (checkUsernameIsUsed(objectRepository)) {
-      res.locals.errors.updateUser = `${username} has been already taken, please choose another username`;
-      return next();
+    if (username !== user.username) {
+      if (checkUsernameIsUsed(objectRepository)) {
+        res.locals.errors.updateUser = `${username} has been already taken, please choose another username`;
+        return next();
+      }
     }
 
     // check email collision
-    if (checkEmailIsUsed(objectRepository)) {
-      res.locals.errors.updateUser = `${email} has been already taken, please choose another email`;
-      return next();
+    if (email !== user.email) {
+      if (checkEmailIsUsed(objectRepository)) {
+        res.locals.errors.updateUser = `${email} has been already taken, please choose another email`;
+        return next();
+      }
     }
 
     const updatedUser = {

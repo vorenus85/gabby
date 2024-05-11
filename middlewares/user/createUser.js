@@ -9,6 +9,9 @@ felhasználót.
  * @returns 
  */
 
+import { checkEmailIsUsed } from '../checkEmailIsUsed.js';
+import { checkUsernameIsUsed } from '../checkUsernameIsUsed.js';
+
 export const createUser = (objectRepository) => {
   const { userModel, uuidv4, saveDB } = objectRepository;
   const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z]).{6,}$/;
@@ -20,28 +23,24 @@ export const createUser = (objectRepository) => {
       res.locals.errors.registerError = 'Missing email';
       console.error('Missing email');
       return next();
-      // return res.status(400).json({ error: 'Missing email' });
     }
 
     if (typeof req.body.username === 'undefined') {
       res.locals.errors.registerError = 'Missing username';
       console.error('Missing username');
       return next();
-      // return res.status(400).json({ error: 'Missing username' });
     }
 
     if (typeof req.body.password === 'undefined') {
       res.locals.errors.registerError = 'Missing password';
       console.error('Missing password');
       return next();
-      // return res.status(400).json({ error: 'Missing password' });
     }
 
     if (typeof req.body.passwordAgain === 'undefined') {
       res.locals.errors.registerError = 'Missing passwordAgain';
       console.error('Missing passwordAgain');
       return next();
-      // return res.status(400).json({ error: 'Missing passwordAgain' });
     }
 
     if (!passwordRegex.test(req.body.password)) {
@@ -51,31 +50,34 @@ export const createUser = (objectRepository) => {
         'Password is at least 6 characters long, contain at least one number, and contain at least one letter'
       );
       return next();
-      /*return res.status(400).json({
-        error:
-          'Password is at least 6 characters long, contain at least one number, and contain at least one letter',
-      });*/
     }
 
     if (!emailRegex.test(req.body.email)) {
       res.locals.errors.registerError = 'Email is invalid';
       console.error('Email is invalid');
       return next();
-      /*
-      return res.status(400).json({
-        error: 'Email is invalid',
-      });*/
     }
 
     if (req.body.password !== req.body.passwordAgain) {
       res.locals.errors.registerError = 'Passwords must be equal';
       console.error('Passwords must be equal');
       return next();
-      /*
-      return res.status(400).json({
-        error: 'Passwords must be equal',
-      });
-      */
+    }
+
+    const { username, email } = req.body;
+    objectRepository.email = email;
+    objectRepository.username = username;
+
+    // check username collision
+    if (checkUsernameIsUsed(objectRepository)) {
+      res.locals.errors.registerError = `${username} has been already taken, please choose another username`;
+      return next();
+    }
+
+    // check email collision
+    if (checkEmailIsUsed(objectRepository)) {
+      res.locals.errors.registerError = `${email} has been already taken, please choose another email`;
+      return next();
     }
 
     try {
