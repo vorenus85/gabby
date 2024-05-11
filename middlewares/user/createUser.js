@@ -16,7 +16,6 @@ export const createUser = (objectRepository) => {
     /^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})$/;
 
   return (req, res, next) => {
-    res.locals.errors = {};
     if (typeof req.body.email === 'undefined') {
       res.locals.errors.registerError = 'Missing email';
       console.error('Missing email');
