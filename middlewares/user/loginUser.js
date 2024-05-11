@@ -38,6 +38,7 @@ export const loginUser = (objectRepository) => {
       if (err) {
         return next(err);
       }
+
       return next();
     });
   };

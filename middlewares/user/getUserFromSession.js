@@ -4,7 +4,6 @@
 export const getUserFromSession = (objectRepository) => {
   return (req, res, next) => {
     res.locals.user = req.session.loggedInUser;
-    next();
     return next();
   };
 };

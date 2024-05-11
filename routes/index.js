@@ -58,9 +58,8 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     '/login',
     loginUser(objectRepository),
     getPosts(objectRepository),
-    (req, res, next) => {
-      res.redirect('/');
-    }
+    isLoggedIn(objectRepository),
+    renderPage('home')
   );
 
   // GRPR screen
@@ -115,9 +114,8 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     '/editUser',
     authUser(objectRepository),
     updateUser(objectRepository),
-    (req, res, next) => {
-      res.render('layout', { page: 'profile', isLoggedIn: true }); // plusz param sikeres adatmódosítás
-    }
+    getUserFromSession(objectRepository),
+    renderPage('profile')
   );
 
   // Bejelentkezett felhasználó beállításai oldal.
