@@ -1,0 +1,29 @@
+<%- include('pageHead', {title: 'Edit profile'}) %>
+<div class="user-common-datas mb-5">
+    <form method="post" action="">
+        <div class="mb-3">
+            <label for="profile-name" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="profile-name" aria-describedby="nameHelp" value="">
+        </div>
+        <div class="mb-3">
+            <label for="profile-username" class="form-label">Username:</label>
+            <input type="text" class="form-control" id="profile-username" aria-describedby="usernameHelp" value="">
+        </div>
+        <div class="mb-3">
+            <label for="profile-email" class="form-label">Email:</label>
+            <input type="email" class="form-control" id="profile-email" aria-describedby="emailHelp" value="">
+        </div>
+        <div class="mb-3">
+            <label for="profile-bio" class="form-label">Bio:</label>
+            <input type="text" class="form-control" id="profile-bio" aria-describedby="bioHelp" value="">
+            <div id="bioHelp" class="form-text">Introduce yourself in one line.</div>
+        </div>
+        <div class="mb-3">
+            <label for="profile-location" class="form-label">Location:</label>
+            <input type="email" class="form-control" id="profile-location" aria-describedby="locationHelp" value="">
+        </div>
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary">Save profile data</button>
+        </div>
+    </form>
+</div>

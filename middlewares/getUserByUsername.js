@@ -1,3 +1,8 @@
+/**
+ * Visszaadja a felhasználót username alapján
+ *
+ */
+
 export const getUserByUsername = (objectRepository) => {
   const { userModel, moment } = objectRepository;
   return (req, res, next) => {

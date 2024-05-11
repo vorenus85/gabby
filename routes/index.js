@@ -8,6 +8,7 @@ import { getPostById } from '../middlewares/getPostById.js';
 import { getPostsByUserId } from '../middlewares/getPostsByUserId.js';
 import { getUsersById } from '../middlewares/getUsersById.js';
 import { getUserByUsername } from '../middlewares/getUserByUsername.js';
+import { getUserFromSession } from '../middlewares/getUserFromSession.js';
 import { doFollow } from '../middlewares/doFollow.js';
 import { doNotFollow } from '../middlewares/doNotFollow.js';
 import { getFollowingPosts } from '../middlewares/getFollowingPosts.js';
@@ -119,13 +120,13 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     }
   );
 
-  // Felhasználó beállításai oldal.
-  app.get('/profile', authUser(objectRepository), (req, res, next) => {
-    res.render('layout', {
-      page: 'profile',
-      isLoggedIn: res.locals?.isLoggedIn,
-    });
-  });
+  // Bejelentkezett felhasználó beállításai oldal.
+  app.get(
+    '/profile',
+    authUser(objectRepository),
+    getUserFromSession(objectRepository),
+    renderPage('profile')
+  );
 
   // Felhasználó oldala
   app.get(
@@ -140,10 +141,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   app.get(
     '/me',
     authUser(objectRepository),
-    (req, res, next) => {
-      res.locals.user = req.session.loggedInUser;
-      next();
-    },
+    getUserFromSession(objectRepository),
     getPostsByUserId(objectRepository),
     getUsersById(objectRepository),
     renderPage('user')
