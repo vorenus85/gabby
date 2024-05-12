@@ -20,47 +20,44 @@ export const createUser = (objectRepository) => {
 
   return (req, res, next) => {
     if (typeof req.body.email === 'undefined') {
-      res.locals.errors.registerError = 'Missing email';
-      console.error('Missing email');
+      res.locals.error = 'MISSING_EMAIL';
+      console.error(res.locals.error);
       return next();
     }
 
     if (typeof req.body.username === 'undefined') {
-      res.locals.errors.registerError = 'Missing username';
-      console.error('Missing username');
+      res.locals.error = 'MISSING_USERNAME';
+      console.error(res.locals.error);
       return next();
     }
 
     if (typeof req.body.password === 'undefined') {
-      res.locals.errors.registerError = 'Missing password';
-      console.error('Missing password');
+      res.locals.error = 'MISSING_PASSWORD';
+      console.error(res.locals.error);
       return next();
     }
 
     if (typeof req.body.passwordAgain === 'undefined') {
-      res.locals.errors.registerError = 'Missing passwordAgain';
-      console.error('Missing passwordAgain');
+      res.locals.error = 'MISSING_PASSWORD_AGAIN';
+      console.error(res.locals.error);
       return next();
     }
 
     if (!passwordRegex.test(req.body.password)) {
-      res.locals.errors.registerError =
-        'Password is at least 6 characters long, contain at least one number, and contain at least one letter';
-      console.error(
-        'Password is at least 6 characters long, contain at least one number, and contain at least one letter'
-      );
+      res.locals.error = 'PASSWORD_REGEX';
+      console.error(res.locals.error);
       return next();
     }
 
     if (!emailRegex.test(req.body.email)) {
-      res.locals.errors.registerError = 'Email is invalid';
-      console.error('Email is invalid');
+      res.locals.error = 'INVALID_EMAIL';
+      console.error(res.locals.error);
       return next();
     }
 
     if (req.body.password !== req.body.passwordAgain) {
-      res.locals.errors.registerError = 'Passwords must be equal';
-      console.error('Passwords must be equal');
+      res.locals.error = 'PASSWORD_NOT_EQUAL';
+      console.error(res.locals.error);
       return next();
     }
 
@@ -70,13 +67,13 @@ export const createUser = (objectRepository) => {
 
     // check username collision
     if (checkUsernameIsUsed(objectRepository)) {
-      res.locals.errors.registerError = `${username} has been already taken, please choose another username`;
+      res.locals.error = 'USERNAME_IS_USED';
       return next();
     }
 
     // check email collision
     if (checkEmailIsUsed(objectRepository)) {
-      res.locals.errors.registerError = `${email} has been already taken, please choose another email`;
+      res.locals.error = 'EMAIL_IS_USED';
       return next();
     }
 

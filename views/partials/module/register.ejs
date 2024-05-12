@@ -1,8 +1,8 @@
 <div class="card  register-module">
     <div class="card-body">
         <h4 class="mb-3">Register</h4>
-        <% if(errors?.registerError){ %>
-        <%- include('error', {errorMessage: errors.registerError}) %>
+        <% if(error.length && messageType === "REGISTER"){ %>
+        <%- include('error', {message: error}) %>
         <% } %>
         <form method="post" action="/register" id="registerForm">
             <div class="mb-3">

@@ -1,8 +1,8 @@
 <div class="card mt-3 login-module">
     <div class="card-body">
         <h4 class="mb-3">Login</h4>
-        <% if(errors?.loginError){ %>
-        <%- include('error', {errorMessage: errors.loginError}) %>
+        <% if(error.length && messageType === "LOGIN"){ %>
+        <%- include('error', {message: error}) %>
         <% } %>
         <form method="post" action="/login">
             <div class="mb-3">

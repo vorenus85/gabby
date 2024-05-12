@@ -26,6 +26,7 @@ import { createUser } from '../middlewares/user/createUser.js';
 import { renderPage } from '../middlewares/renderPage.js';
 
 import moment from 'moment';
+import { errors } from '../messages.js';
 export function addRoutes(app, { postModel, userModel, saveDB }) {
   const objectRepository = {
     postModel,
@@ -36,7 +37,9 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   };
 
   app.all('*', isLoggedIn(), (req, res, next) => {
-    res.locals.errors = {};
+    res.locals.errors = errors;
+    res.locals.messageType = req.query?.messageType || '';
+    res.locals.error = req.query?.error || '';
     res.locals.post = {};
     res.locals.posts = [];
     res.locals.followings = [];
@@ -47,7 +50,11 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // Regisztrációs adatok form
   app.post('/register', createUser(objectRepository), (req, res, next) => {
-    res.redirect('/');
+    if (res.locals.error.length) {
+      res.redirect(`/?error=${res.locals.error}&messageType=REGISTER`);
+    } else {
+      res.redirect('/');
+    }
   });
 
   // Kijelentkezés
@@ -55,7 +62,11 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // Bejelentkezési adatok form
   app.post('/login', loginUser(objectRepository), (req, res, next) => {
-    res.redirect('/');
+    if (res.locals.error.length) {
+      res.redirect(`/?error=${res.locals.error}&messageType=LOGIN`);
+    } else {
+      res.redirect('/');
+    }
   });
 
   // GRPR screen

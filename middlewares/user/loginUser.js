@@ -9,14 +9,15 @@ export const loginUser = (objectRepository) => {
   const { userModel, moment } = objectRepository;
 
   return (req, res, next) => {
-    res.locals.errors = {};
     if (typeof req.body.email === 'undefined') {
-      res.locals.errors.loginError = 'Missing email';
+      res.locals.error = 'MISSING_EMAIL';
+      console.error(res.locals.error);
       return next();
     }
 
     if (typeof req.body.password === 'undefined') {
-      res.locals.errors.loginError = 'Missing password';
+      res.locals.error = 'MISSING_PASSWORD';
+      console.error(res.locals.error);
       return next();
     }
 
@@ -26,7 +27,8 @@ export const loginUser = (objectRepository) => {
     });
 
     if (!user) {
-      res.locals.errors.loginError = 'Wrong email or password';
+      res.locals.error = 'LOGIN_ERROR';
+      console.error(res.locals.error);
       return next();
     }
 
