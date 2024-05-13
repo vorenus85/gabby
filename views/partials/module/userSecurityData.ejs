@@ -1,13 +1,24 @@
 <%- include('pageHead', {title: 'Modify password'}) %>
+<% if(message.length && messageType === "EDITPASSWORD"){ %>
+<%- include('success', {message}) %>
+<%}%>
+    <% if(error.length && messageType === "EDITPASSWORD"){ %>
+<%- include('error', {message: error}) %>
+<%}%>
 <div class="user-security-data">
-    <form method="post" action="">
+    <form method="post" action="/editUserPassword">
         <div class="mb-3">
-            <label for="actual-password" class="form-label">Current password</label>
-            <input type="password" class="form-control" id="actual-password">
+            <label for="password" class="form-label">Current password</label>
+            <input type="password" class="form-control" id="password" name="password" required
+                minlength="6">
         </div>
         <div class="mb-3">
             <label for="new-password" class="form-label">New password</label>
-            <input type="password" class="form-control" id="new-password">
+            <input type="password" class="form-control" id="new-password" name="newPassword" required minlength="6">
+        </div>
+        <div class="mb-3">
+            <label for="new-password-again" class="form-label">New password again</label>
+            <input type="password" class="form-control" id="new-password-again" name="newPasswordAgain" required minlength="6">
         </div>
         <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-primary">Save new password</button>

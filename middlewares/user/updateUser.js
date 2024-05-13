@@ -7,6 +7,7 @@
 
 import { checkEmailIsUsed } from '../checkEmailIsUsed.js';
 import { checkUsernameIsUsed } from '../checkUsernameIsUsed.js';
+import { emailRegex } from '../utils.js';
 
 export const updateUser = (objectRepository) => {
   const { userModel, saveDB } = objectRepository;
@@ -14,6 +15,12 @@ export const updateUser = (objectRepository) => {
     const user = req.session.loggedInUser;
     const { fullname, username, email, bio, location } = req.body;
     const updatedAt = new Date();
+
+    if (!emailRegex.test(email)) {
+      res.locals.error = 'INVALID_EMAIL';
+      console.error(res.locals.error);
+      return next();
+    }
 
     objectRepository.email = email;
     objectRepository.username = username;

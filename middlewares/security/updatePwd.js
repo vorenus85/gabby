@@ -4,8 +4,52 @@
  * @returns
  */
 
+import { passwordRegex } from '../utils.js';
+
 export const updatePwd = (objectRepository) => {
+  const { userModel, saveDB } = objectRepository;
   return (req, res, next) => {
-    return next();
+    const { password, newPassword, newPasswordAgain } = req.body;
+
+    const user = userModel.findOne({
+      email: req.session.loggedInUser.email.trim().toLowerCase(),
+      password,
+    });
+
+    if (!user) {
+      res.locals.error = 'WRONG_PASSWORD';
+      console.error(res.locals.error);
+      return next();
+    }
+
+    if (!passwordRegex.test(newPassword)) {
+      res.locals.error = 'PASSWORD_REGEX';
+      console.error(res.locals.error);
+      return next();
+    }
+
+    if (newPassword !== newPasswordAgain) {
+      res.locals.error = 'PASSWORD_NOT_EQUAL';
+      console.error(res.locals.error);
+      return next();
+    }
+
+    const updatedAt = new Date();
+    const updatedUser = {
+      ...user,
+      password: newPassword,
+      updatedAt,
+    };
+
+    userModel.update(updatedUser);
+
+    return saveDB((error) => {
+      if (error) {
+        return next(error);
+      }
+      req.session.loggedInUser = updatedUser;
+      res.locals.message = 'USER_PASSWORD_SUCCESSFULLY_UPDATED';
+      next();
+    });
   };
 };

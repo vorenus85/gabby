@@ -52,7 +52,9 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   // Regisztrációs adatok form
   app.post('/register', createUser(objectRepository), (req, res, next) => {
     if (res.locals.error.length) {
-      res.redirect(`/?error=${res.locals.error}&messageType=REGISTER`);
+      res.redirect(
+        `/?error=${res.locals.error}&messageType=REGISTER#${res.locals.error}`
+      );
     } else {
       res.redirect('/');
     }
@@ -64,7 +66,9 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   // Bejelentkezési adatok form
   app.post('/login', loginUser(objectRepository), (req, res, next) => {
     if (res.locals.error.length) {
-      res.redirect(`/?error=${res.locals.error}&messageType=LOGIN`);
+      res.redirect(
+        `/?error=${res.locals.error}&messageType=LOGIN#${res.locals.error}`
+      );
     } else {
       res.redirect('/');
     }
@@ -111,9 +115,17 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     '/editUserPassword',
     authUser(objectRepository),
     updatePwd(objectRepository),
-    setNewPwdToken(objectRepository),
+    getUserFromSession(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'profile', isLoggedIn: true }); // plusz param sikeres jelszómódosítás
+      if (res.locals.error.length) {
+        res.redirect(
+          `/profile?error=${res.locals.error}&messageType=EDITPASSWORD#${res.locals.error}`
+        );
+      } else {
+        res.redirect(
+          `/profile?message=${res.locals.message}&messageType=EDITPASSWORD#${res.locals.message}`
+        );
+      }
     }
   );
 
@@ -126,11 +138,11 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     (req, res, next) => {
       if (res.locals.error.length) {
         res.redirect(
-          `/profile/?error=${res.locals?.error}&messageType=EDITUSER`
+          `/profile/?error=${res.locals?.error}&messageType=EDITUSER#${res.locals?.error}`
         );
       } else {
         res.redirect(
-          `/profile/?message=${res.locals?.message}&messageType=EDITUSER`
+          `/profile/?message=${res.locals?.message}&messageType=EDITUSER#${res.locals?.message}`
         );
       }
     }
@@ -193,11 +205,11 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     (req, res, next) => {
       if (res.locals.error.length) {
         res.redirect(
-          `/post/${res.locals.post.id}/?error=${res.locals?.error}&messageType=EDITPOST`
+          `/post/${res.locals.post.id}/?error=${res.locals?.error}&messageType=EDITPOST#${res.locals?.error}`
         );
       } else {
         res.redirect(
-          `/post/${res.locals.post.id}/?message=${res.locals?.message}&messageType=EDITPOST`
+          `/post/${res.locals.post.id}/?message=${res.locals?.message}&messageType=EDITPOST#${res.locals?.message}`
         );
       }
     }

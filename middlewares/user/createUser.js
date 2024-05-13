@@ -11,12 +11,10 @@ felhasználót.
 
 import { checkEmailIsUsed } from '../checkEmailIsUsed.js';
 import { checkUsernameIsUsed } from '../checkUsernameIsUsed.js';
+import { passwordRegex, emailRegex } from '../utils.js';
 
 export const createUser = (objectRepository) => {
   const { userModel, uuidv4, saveDB } = objectRepository;
-  const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z]).{6,}$/;
-  const emailRegex =
-    /^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})$/;
 
   return (req, res, next) => {
     if (typeof req.body.email === 'undefined') {
