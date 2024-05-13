@@ -24,6 +24,7 @@ import { loginUser } from '../middlewares/user/loginUser.js';
 import { logoutUser } from '../middlewares/user/logoutUser.js';
 import { createUser } from '../middlewares/user/createUser.js';
 import { renderPage } from '../middlewares/renderPage.js';
+import { sendPwdToken } from '../middlewares/security/sendPwdToken.js';
 
 import moment from 'moment';
 import { errors, messages } from '../messages.js';
@@ -46,6 +47,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     res.locals.posts = [];
     res.locals.followings = [];
     res.locals.users = [];
+    res.locals.pwdToken = req.query?.pwdToken || '';
     next();
   });
 
@@ -97,18 +99,18 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   );
 
   // lost password form
-  app.post('/lostPassword', getPwdToken(objectRepository), (req, res, next) => {
-    res.redirect('/lost-password'); // + param??
-  });
+  app.post(
+    '/lostPassword',
+    sendPwdToken(objectRepository),
+    (req, res, next) => {
+      res.redirect(
+        `/lost-password?message=${res.locals?.message}&messageType=LOST_PASSWORD&pwdToken=${res.locals?.pwdToken}#${res.locals?.message}`
+      );
+    }
+  );
 
   // lost password screen
-  app.get('/lost-password', (req, res, next) => {
-    res.render('layout', {
-      page: 'lostPassword',
-      isLoggedIn: res.locals?.isLoggedIn,
-      errors: res.locals?.errors,
-    });
-  });
+  app.get('/lost-password', renderPage('lostPassword'));
 
   // Felhasználó jelszavának módosítása űrlap
   app.post(

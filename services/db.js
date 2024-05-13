@@ -13,6 +13,7 @@ const db = new loki('database.db');
  * location: string
  * bio: string
  * newPwdSecret: UUID - elfelejetett jelszóhoz UUID, jelszó változtatás esetén változik, illetve kiküldjük új jelszó kérésnél
+ * pwdTokenDeadline: - date - jelszó kérésnél itt állítjuk be az időt currentTime + óra, eddig állíthatja be az új jelszót a kérvényező
  * createdAt: date
  * updatedAt: date
  * followedUsers: array - azon felhasználók listája akit követ a felhasználó
