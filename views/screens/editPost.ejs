@@ -1,6 +1,6 @@
 <%- include('../partials/module/pageHead', {title: 'Edit post'}) %>
-<% if(messages.length) {%>
-<%- include('../partials/module/success', {message: messages.successUpdatePost}) %>
+<% if(message.length && messageType === "EDITPOST"){  %>
+<%- include('../partials/module/success', {message}) %>
 <%}%>
 <form method="post" action="/post/update">
     <div class="d-flex gap-3">

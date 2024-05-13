@@ -13,24 +13,28 @@ export const updatePost = (objectRepository) => {
 
     if (postContent === 'undefined') {
       console.error('Missing postContent during updatePost');
-      return res.redirect('/');
+      res.locals.error = 'ERROR_HAPPENED';
+      return next();
     }
 
     if (postId === 'undefined') {
       console.error('Missing postId during updatePost');
-      return res.redirect('/');
+      res.locals.error = 'ERROR_HAPPENED';
+      return next();
     }
 
     const post = postModel.findOne({ id: postId });
 
     if (!post) {
       console.error('Post not find by postId during updatePost');
-      return res.redirect('/');
+      res.locals.error = 'ERROR_HAPPENED';
+      return next();
     }
 
     if (post.createdBy !== req.session.loggedInUser.id) {
       console.error('Authentication failed during updatePost');
-      return res.redirect('/');
+      res.locals.error = 'ERROR_HAPPENED';
+      return next();
     }
 
     post.content = postContent;
@@ -43,9 +47,8 @@ export const updatePost = (objectRepository) => {
         return next(error);
       }
 
-      res.locals.messages = {};
       res.locals.post = post;
-      res.locals.messages.successUpdatePost = 'Post successfully updated';
+      res.locals.message = 'POST_SUCCESSFULLY_UPDATED';
       next();
     });
   };

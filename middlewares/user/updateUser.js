@@ -15,14 +15,13 @@ export const updateUser = (objectRepository) => {
     const { fullname, username, email, bio, location } = req.body;
     const updatedAt = new Date();
 
-    objectRepository.user = user;
     objectRepository.email = email;
     objectRepository.username = username;
 
     // check username collision
     if (username !== user.username) {
       if (checkUsernameIsUsed(objectRepository)) {
-        res.locals.errors.updateUser = `${username} has been already taken, please choose another username`;
+        res.locals.error = 'USERNAME_IS_USED';
         return next();
       }
     }
@@ -30,7 +29,7 @@ export const updateUser = (objectRepository) => {
     // check email collision
     if (email !== user.email) {
       if (checkEmailIsUsed(objectRepository)) {
-        res.locals.errors.updateUser = `${email} has been already taken, please choose another email`;
+        res.locals.error = 'EMAIL_IS_USED';
         return next();
       }
     }
@@ -52,7 +51,7 @@ export const updateUser = (objectRepository) => {
         return next(error);
       }
       req.session.loggedInUser = updatedUser;
-      res.locals.messages.successUpdateUser = 'User data successfully updated';
+      res.locals.message = 'USER_SUCCESSFULLY_UPDATED';
       next();
     });
   };

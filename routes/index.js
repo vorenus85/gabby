@@ -26,7 +26,7 @@ import { createUser } from '../middlewares/user/createUser.js';
 import { renderPage } from '../middlewares/renderPage.js';
 
 import moment from 'moment';
-import { errors } from '../messages.js';
+import { errors, messages } from '../messages.js';
 export function addRoutes(app, { postModel, userModel, saveDB }) {
   const objectRepository = {
     postModel,
@@ -38,13 +38,14 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   app.all('*', isLoggedIn(), (req, res, next) => {
     res.locals.errors = errors;
+    res.locals.messages = messages;
     res.locals.messageType = req.query?.messageType || '';
     res.locals.error = req.query?.error || '';
+    res.locals.message = req.query?.message || '';
     res.locals.post = {};
     res.locals.posts = [];
     res.locals.followings = [];
     res.locals.users = [];
-    res.locals.messages = {};
     next();
   });
 
@@ -122,7 +123,17 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     authUser(objectRepository),
     updateUser(objectRepository),
     getUserFromSession(objectRepository),
-    renderPage('profile')
+    (req, res, next) => {
+      if (res.locals.error.length) {
+        res.redirect(
+          `/profile/?error=${res.locals?.error}&messageType=EDITUSER`
+        );
+      } else {
+        res.redirect(
+          `/profile/?message=${res.locals?.message}&messageType=EDITUSER`
+        );
+      }
+    }
   );
 
   // Bejelentkezett felhasználó beállításai oldal.
@@ -180,7 +191,15 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
     authUser(objectRepository),
     updatePost(objectRepository),
     (req, res, next) => {
-      res.redirect(req.get('referer'));
+      if (res.locals.error.length) {
+        res.redirect(
+          `/post/${res.locals.post.id}/?error=${res.locals?.error}&messageType=EDITPOST`
+        );
+      } else {
+        res.redirect(
+          `/post/${res.locals.post.id}/?message=${res.locals?.message}&messageType=EDITPOST`
+        );
+      }
     }
   );
 

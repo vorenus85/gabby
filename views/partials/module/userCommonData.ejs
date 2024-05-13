@@ -1,9 +1,9 @@
 <%- include('pageHead', {title: 'Edit profile'}) %>
-<% if(messages?.successUpdateUser) {%>
-<%- include('success', {message: messages.successUpdateUser}) %>
+<% if(message.length && messageType === "EDITUSER"){ %>
+<%- include('success', {message}) %>
 <%}%>
-<% if(errors?.updateUser) {%>
-<%- include('error', {errorMessage: errors.updateUser}) %>
+<% if(error.length && messageType === "EDITUSER"){ %>
+<%- include('error', {message: error}) %>
 <%}%>
 <div class="user-common-datas mb-5">
     <form method="post" action="/editUser">

@@ -6,10 +6,16 @@ export const errors = {
   LOGIN_ERROR: 'Wrong email or password',
   INVALID_EMAIL: 'Email is invalid',
   PASSWORD_NOT_EQUAL: 'Passwords must be equal',
+  ERROR_HAPPENED: 'Some error happened, please contact with administrator',
   USERNAME_IS_USED:
     'Given username has been already used, please choose another username',
   EMAIL_IS_USED:
     'Given email has been already used, please choose another email',
   PASSWORD_REGEX:
     'Password is at least 6 characters long, contain at least one number, and contain at least one letter',
+};
+
+export const messages = {
+  POST_SUCCESSFULLY_UPDATED: 'Post successfully updated',
+  USER_SUCCESSFULLY_UPDATED: 'User data successfully updated',
 };
