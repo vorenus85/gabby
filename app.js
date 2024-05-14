@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
@@ -12,7 +13,7 @@ app.use('/public', express.static('public'));
 
 app.use(
   session({
-    secret: 'it61s3t78n9srq37t7t8',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
   })
