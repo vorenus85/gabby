@@ -4,6 +4,7 @@
  * @returns
  */
 
+import bcrypt from 'bcryptjs';
 import { passwordRegex } from '../utils.js';
 
 export const updatePwd = (objectRepository) => {
@@ -34,10 +35,11 @@ export const updatePwd = (objectRepository) => {
       return next();
     }
 
+    const pwdHash = bcrypt.hashSync(newPassword, process.env.PASSWORD_SALT);
     const updatedAt = new Date();
     const updatedUser = {
       ...user,
-      password: newPassword,
+      password: pwdHash,
       updatedAt,
     };
 

@@ -25,6 +25,7 @@ import { logoutUser } from '../middlewares/user/logoutUser.js';
 import { createUser } from '../middlewares/user/createUser.js';
 import { renderPage } from '../middlewares/renderPage.js';
 import { sendPwdToken } from '../middlewares/security/sendPwdToken.js';
+import { resetPwd } from '../middlewares/security/resetPwd.js';
 
 import moment from 'moment';
 import { errors, messages } from '../messages.js';
@@ -81,8 +82,9 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // Új jelszó létrehozása form
   app.post(
-    '/new-password/:uniqueHash',
-    updatePwd(objectRepository),
+    '/new-password/:pwdToken',
+    getPwdToken(objectRepository),
+    resetPwd(objectRepository),
     setNewPwdToken(objectRepository),
     (req, res, next) => {
       res.render('layout', { page: 'createNewPassword' }); // param sikeres módosításhoz
@@ -91,7 +93,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // Új jelszó létrehozása screen
   app.get(
-    '/new-password/:uniqueHash',
+    '/new-password/:pwdToken',
     getPwdToken(objectRepository),
     (req, res, next) => {
       res.render('layout', { page: 'createNewPassword', isLoggedIn: false });

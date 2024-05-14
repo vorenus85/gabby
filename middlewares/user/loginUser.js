@@ -4,7 +4,7 @@
  * @param {*} objectRepository
  * @returns
  */
-
+import bcrypt from 'bcryptjs';
 export const loginUser = (objectRepository) => {
   const { userModel, moment } = objectRepository;
 
@@ -23,7 +23,7 @@ export const loginUser = (objectRepository) => {
 
     const user = userModel.findOne({
       email: req.body.email.trim().toLowerCase(),
-      password: req.body.password,
+      // password: req.body.password,
     });
 
     if (!user) {
@@ -32,16 +32,25 @@ export const loginUser = (objectRepository) => {
       return next();
     }
 
-    user.createdAtText = moment(user.createdAt).fromNow();
-
-    req.session.userId = user.id;
-    req.session.loggedInUser = user;
-    return req.session.save((err) => {
-      if (err) {
-        return next(err);
+    // Load hash from your password DB.
+    bcrypt.compare(req.body.password, user.password, function (err, result) {
+      if (!result) {
+        res.locals.error = 'LOGIN_ERROR';
+        console.error(res.locals.error);
+        return next();
       }
 
-      return next();
+      user.createdAtText = moment(user.createdAt).fromNow();
+
+      req.session.userId = user.id;
+      req.session.loggedInUser = user;
+      return req.session.save((err) => {
+        if (err) {
+          return next(err);
+        }
+
+        return next();
+      });
     });
   };
 };

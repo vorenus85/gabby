@@ -8,7 +8,7 @@ felhasználót.
  * @param {*} objectRepository 
  * @returns 
  */
-
+import bcrypt from 'bcryptjs';
 import { checkEmailIsUsed } from '../checkEmailIsUsed.js';
 import { checkUsernameIsUsed } from '../checkUsernameIsUsed.js';
 import { passwordRegex, emailRegex } from '../utils.js';
@@ -75,12 +75,17 @@ export const createUser = (objectRepository) => {
       return next();
     }
 
+    const pwdHash = bcrypt.hashSync(
+      req.body.password,
+      process.env.PASSWORD_SALT
+    );
+
     const newUser = {
       id: uuidv4(),
       profileImage: Math.floor(Math.random() * 10) + 1, // in public/avatar folder have 10 random avatar image from avatar_1.png to avatar_10.png assign one randomly
       email: req.body.email,
       username: req.body.username,
-      password: req.body.password,
+      password: pwdHash,
       fullname: '',
       location: '',
       bio: '',
