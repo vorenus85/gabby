@@ -1,7 +1,7 @@
 <!-- Confirm Modal -->
 <div class="modal" tabindex="-1" id="createPostModal">
     <div class="modal-dialog">
-        <form method="post" action="/post/create">
+        <form method="post" action="/post/create" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Create post</h5>
@@ -23,6 +23,13 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <div class="col-9 me-auto">
+                        <input class="form-control form-control-sm" id="postImage" type="file" name="image">
+                        <small id="emailHelp" class="form-text text-muted">
+                            <p class="mb-0">Max file size is 1 Mbyte.</p>
+                            <p>Acceptable file formats are: jpg, jpeg, png and gif.</p>
+                        </small>
+                    </div>
                     <button type="submit" class="btn btn-primary">Post</button>
                 </div>
             </div>

@@ -4,10 +4,22 @@
 <%}%>
 <form method="post" action="/post/update">
     <div class="d-flex gap-3">
+
         <img class="img-fluid card-img post-creator-img" src="/public/avatar/avatar_<%=post.creatorImage%>.png"
 alt="<%=post.creatorUsername%>" />
-<textarea name="postContent" class="form-control" maxlength="160" minlength="5" placeholder="This a tweet..."
-    id="newPost" onkeyup="countPostLength(this,'currentEdit')"><%=post.content%></textarea>
+<div class="d-flex flex-column w-100">
+    <% if(post.image) { %>
+    <div class="post-image-container ">
+        <button type="button" class="btn-close delete-img-btn" aria-label="Close" title="Delete image"></button>
+        <div class="post-image mb-3">
+            <img src="/uploads/<%=post.image%>" class="img-fluid" />
+        </div>
+    </div>
+    <% } %>
+    <textarea name="postContent" class="form-control" maxlength="160" minlength="5" placeholder="This a tweet..."
+        id="newPost" onkeyup="countPostLength(this,'currentEdit')"><%=post.content%></textarea>
+</div>
+
 <input type="hidden" name="postId" value="<%=post.id%>">
 </div>
 <div class="d-flex align-items-center justify-content-end mb-3">
@@ -17,6 +29,15 @@ alt="<%=post.creatorUsername%>" />
     </div>
 </div>
 <div class="d-flex align-items-center justify-content-end">
+    <% if(!post.image) { %>
+    <div class="col-9 me-auto">
+        <input class="form-control form-control-sm" id="postImage" type="file" name="image">
+        <small id="emailHelp" class="form-text text-muted">
+            <p class="mb-0">Max file size is 1 Mbyte.</p>
+            <p>Acceptable file formats are: jpg, jpeg, png and gif.</p>
+        </small>
+    </div>
+    <% } %>
     <button type="submit" class="btn btn-primary">Edit</button>
 </div>
 </form>

@@ -26,9 +26,11 @@ import { createUser } from '../middlewares/user/createUser.js';
 import { renderPage } from '../middlewares/renderPage.js';
 import { sendPwdToken } from '../middlewares/security/sendPwdToken.js';
 import { resetPwd } from '../middlewares/security/resetPwd.js';
-
+import { uploadImage } from '../middlewares/post/uploadImage.js';
 import moment from 'moment';
 import { errors, messages } from '../messages.js';
+import methodOverride from 'method-override';
+
 export function addRoutes(app, { postModel, userModel, saveDB }) {
   const objectRepository = {
     postModel,
@@ -183,6 +185,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   app.post(
     '/post/create',
     authUser(objectRepository),
+    uploadImage.single('image'),
     createPost(objectRepository),
     (req, res, next) => {
       res.redirect(req.get('referer'));
@@ -284,4 +287,15 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // homepage
   app.get('/', getPosts(objectRepository), renderPage('home'));
+
+  app.use(methodOverride());
+
+  app.use((err, req, res, next) => {
+    if (res.headersSent) {
+      return next(err);
+    }
+    console.error(err);
+    res.status(500);
+    res.render('error', { error: err });
+  });
 }

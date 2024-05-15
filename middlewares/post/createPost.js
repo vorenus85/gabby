@@ -14,6 +14,10 @@ export const createPost = (objectRepository) => {
       return next();
     }
 
+    if (typeof req.file === 'undefined') {
+      //return next();
+    }
+
     try {
       postModel.insert({
         id: uuidv4(),
@@ -21,7 +25,7 @@ export const createPost = (objectRepository) => {
         creatorUsername: user.username,
         creatorImage: user.profileImage,
         content: req.body.postContent,
-        image: '',
+        image: req?.file?.filename,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
