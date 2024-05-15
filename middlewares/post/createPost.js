@@ -14,10 +14,6 @@ export const createPost = (objectRepository) => {
       return next();
     }
 
-    if (typeof req.file === 'undefined') {
-      //return next();
-    }
-
     try {
       postModel.insert({
         id: uuidv4(),

@@ -1,5 +1,5 @@
-<!-- Confirm Modal -->
-<div class="modal" tabindex="-1" id="deleteConfirmModal">
+<!-- deletePostModal Modal -->
+<div class="modal" tabindex="-1" id="deletePostImageModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,8 +11,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <form method="post" action="/post/delete">
-                    <input type="hidden" name="postId" id="postIdToDelete" value="">
+                <form method="post" action="/post/deleteImage">
+                    <input type="hidden" name="postId" id="postImageToDelete" value="">
                     <button type="submit" class="btn btn-primary">Yes</button>
                 </form>
             </div>

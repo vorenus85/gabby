@@ -2,7 +2,7 @@
 <% if(message.length && messageType === "EDITPOST"){  %>
 <%- include('../partials/module/success', {message}) %>
 <%}%>
-<form method="post" action="/post/update">
+<form method="post" action="/post/update" enctype="multipart/form-data">
     <div class="d-flex gap-3">
 
         <img class="img-fluid card-img post-creator-img" src="/public/avatar/avatar_<%=post.creatorImage%>.png"
@@ -10,7 +10,8 @@ alt="<%=post.creatorUsername%>" />
 <div class="d-flex flex-column w-100">
     <% if(post.image) { %>
     <div class="post-image-container ">
-        <button type="button" class="btn-close delete-img-btn" aria-label="Close" title="Delete image"></button>
+        <button type="button" class="btn-close delete-img-btn" aria-label="Close" title="Delete image"
+            onclick="deletePostImage('<%=post.id%>')"></button>
         <div class="post-image mb-3">
             <img src="/uploads/<%=post.image%>" class="img-fluid" />
         </div>

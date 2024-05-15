@@ -38,6 +38,10 @@ export const updatePost = (objectRepository) => {
     }
 
     post.content = postContent;
+    if (req?.file?.filename) {
+      post.image = req?.file?.filename;
+    }
+
     post.updatedAt = new Date();
 
     postModel.update(post);

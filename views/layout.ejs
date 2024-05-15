@@ -19,7 +19,8 @@
     </div>
 </div>
 <% if(isLoggedIn){ %>
-<%- include('./partials/modal/confirm') %>
+<%- include('./partials/modal/deletePost') %>
+<%- include('./partials/modal/deletePostImage') %>
 <% if(loggedInUser){ %>
 <%- include('./partials/modal/createPost') %>
 <% } %>

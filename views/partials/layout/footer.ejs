@@ -1,8 +1,22 @@
-<script>
+<script type="text/javascript">
     function countPostLength(event, currentElementID) {
         var length = event.value.length;
         var current = document.getElementById(currentElementID);
         current.innerHTML = length;
+    }
+
+    function deletePost(id) {
+        var deletePostModal = new bootstrap.Modal(document.getElementById("deletePostModal"), {});
+        var deletePostIdInput = document.getElementById("postIdToDelete");
+        deletePostIdInput.value = id;
+        deletePostModal.show();
+    }
+
+    function deletePostImage(id) {
+        var deletePostImageModal = new bootstrap.Modal(document.getElementById("deletePostImageModal"), {});
+        var deletePostIdInput = document.getElementById("postImageToDelete");
+        deletePostIdInput.value = id;
+        deletePostImageModal.show();
     }
 </script>
 </body>

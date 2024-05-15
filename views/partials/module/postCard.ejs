@@ -32,13 +32,3 @@
     </div>
     <% } %>
 </div>
-<% if(isLoggedIn && (loggedInUser.id === post.createdBy)){%>
-<script type="text/javascript">
-    function deletePost(id) {
-        var confirmModal = new bootstrap.Modal(document.getElementById("deleteConfirmModal"), {});
-        var deletePostIdInput = document.getElementById("postIdToDelete");
-        deletePostIdInput.value = id;
-        confirmModal.show();
-    }
-</script>
-<% } %>

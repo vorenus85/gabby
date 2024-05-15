@@ -208,6 +208,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   app.post(
     '/post/update',
     authUser(objectRepository),
+    uploadImage.single('image'),
     updatePost(objectRepository),
     (req, res, next) => {
       if (res.locals.error.length) {
