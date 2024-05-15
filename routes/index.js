@@ -194,13 +194,12 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // Posthoz tartozó kép törlése
   app.post(
-    '/post/deleteImage/:id',
+    '/post/deleteImage',
     authUser(objectRepository),
     getPostById(objectRepository),
     deletePostImage(objectRepository),
     (req, res, next) => {
-      // hova redirekteljen??
-      res.render('layout', { page: 'home', isLoggedIn: true });
+      res.redirect(req.get('referer'));
     }
   );
 
