@@ -23,6 +23,7 @@ export const errors = {
 export const messages = {
   POST_SUCCESSFULLY_UPDATED: 'Post successfully updated.',
   USER_SUCCESSFULLY_UPDATED: 'User data successfully updated.',
-  USER_PASSWORD_SUCCESSFULLY_UPDATED: 'User password successfully updated',
-  RESET_PWD_EMAIL: 'Password Reset Email Has Been Sent',
+  USER_PASSWORD_SUCCESSFULLY_UPDATED:
+    'User password successfully updated, feel free to use it.',
+  RESET_PWD_EMAIL: 'Password Reset Email Has Been Sent.',
 };

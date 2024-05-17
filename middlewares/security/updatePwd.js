@@ -14,14 +14,21 @@ export const updatePwd = (objectRepository) => {
 
     const user = userModel.findOne({
       email: req.session.loggedInUser.email.trim().toLowerCase(),
-      password,
+      // password,
     });
 
-    if (!user) {
-      res.locals.error = 'WRONG_PASSWORD';
-      console.error(res.locals.error);
-      return next();
-    }
+    // Load hash from your password DB.
+
+    console.log(password);
+    console.log(user.password);
+
+    bcrypt.compare(password, user.password, function (err, result) {
+      if (!result) {
+        res.locals.error = 'WRONG_PASSWORD';
+        console.error(res.locals.error);
+        return next();
+      }
+    });
 
     if (!passwordRegex.test(newPassword)) {
       res.locals.error = 'PASSWORD_REGEX';
@@ -35,7 +42,9 @@ export const updatePwd = (objectRepository) => {
       return next();
     }
 
-    const pwdHash = bcrypt.hashSync(newPassword, process.env.PASSWORD_SALT);
+    console.log('eljut idáig');
+    const pwdHash = bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10));
+    console.log(pwdHash);
     const updatedAt = new Date();
     const updatedUser = {
       ...user,

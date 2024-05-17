@@ -75,10 +75,7 @@ export const createUser = (objectRepository) => {
       return next();
     }
 
-    const pwdHash = bcrypt.hashSync(
-      req.body.password,
-      process.env.PASSWORD_SALT
-    );
+    const pwdHash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
 
     const newUser = {
       id: uuidv4(),

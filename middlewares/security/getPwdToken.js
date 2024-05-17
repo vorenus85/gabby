@@ -32,6 +32,7 @@ export const getPwdToken = (objectRepository) => {
 
     const splittedEmail = user.email.split('');
     res.locals.cryptedEmail = splittedEmail[0] + '****@****.***';
+    res.locals.pwdToken = pwdToken;
 
     return next();
   };

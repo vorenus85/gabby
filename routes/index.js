@@ -84,14 +84,21 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // Új jelszó létrehozása form
   app.post(
-    '/newPassword/:pwdToken',
-    getPwdToken(objectRepository),
+    '/newPassword',
     resetPwd(objectRepository),
     setNewPwdToken(objectRepository),
     (req, res, next) => {
-      res.render('layout', { page: 'createNewPassword' }); // param sikeres módosításhoz
+      if (res.locals.error.length) {
+        res.redirect(
+          `/new-password/${res.locals.pwdToken}/?error=${res.locals.error}`
+        );
+      } else {
+        res.redirect('/new-password-set');
+      }
     }
   );
+
+  app.get('/new-password-set', renderPage('newPasswordSet'));
 
   // Új jelszó létrehozása screen
   app.get(
