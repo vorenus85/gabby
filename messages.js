@@ -14,6 +14,10 @@ export const errors = {
   PASSWORD_REGEX:
     'Password is at least 6 characters long, contain at least one number, and contain at least one letter.',
   WRONG_PASSWORD: 'Actual password is wrong.',
+  MISSING_PWD_TOKEN: 'Missing password token.',
+  USER_NOT_FOUND: 'User not found with this password token.',
+  PWD_TOKEN_EXPIRED:
+    'Your password reset token has been expired please ask another.',
 };
 
 export const messages = {

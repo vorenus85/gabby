@@ -23,9 +23,8 @@ export const sendPwdToken = (objectRepository) => {
 
     res.locals.message = 'RESET_PWD_EMAIL';
 
-    // if user not found create fake token and leave middleware chain
+    // if user not found return next without token
     if (!user) {
-      res.locals.pwdToken = uuidv4();
       return next();
     }
 

@@ -84,7 +84,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   // Új jelszó létrehozása form
   app.post(
-    '/new-password/:pwdToken',
+    '/newPassword/:pwdToken',
     getPwdToken(objectRepository),
     resetPwd(objectRepository),
     setNewPwdToken(objectRepository),
@@ -97,9 +97,7 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
   app.get(
     '/new-password/:pwdToken',
     getPwdToken(objectRepository),
-    (req, res, next) => {
-      res.render('layout', { page: 'createNewPassword', isLoggedIn: false });
-    }
+    renderPage('createNewPassword')
   );
 
   // lost password form
@@ -290,12 +288,18 @@ export function addRoutes(app, { postModel, userModel, saveDB }) {
 
   app.use(methodOverride());
 
+  // error 500
   app.use((err, req, res, next) => {
     if (res.headersSent) {
       return next(err);
     }
     console.error(err);
     res.status(500);
-    res.render('error', { error: err });
+    res.render('error');
+  });
+
+  // error 404
+  app.use(function (req, res) {
+    res.render('404');
   });
 }
